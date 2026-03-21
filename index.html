@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Atmospheric Monitoring - Canteen Air Quality</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  </head>
+
+  <body>
+    <header class="topbar">
+      <div class="topbar-content">
+        <h1>Atmospheric Monitoring</h1>
+      </div>
+    </header>
+
+    <div class="dashboard">
+      <div class="summary-cards">
+        <div class="card pm">
+          <div class="value" id="pm25-card">45</div>
+          <div class="label">Particulate Matter</div>
+        </div>
+
+        <div class="card co2">
+          <div class="value" id="co2-card">45</div>
+          <div class="label">CO<sub>2</sub></div>
+        </div>
+
+        <div class="card voc">
+          <div class="value" id="voc-card">45</div>
+          <div class="label">VOC (Volatile Organic Compounds)</div>
+        </div>
+
+        <div class="card gas">
+          <div class="value" id="gas-card">45</div>
+          <div class="label">Gas or Ozone</div>
+        </div>
+
+        <div class="card temperature">
+          <div class="value" id="temp-card">24.5 °C</div>
+          <div class="label">Temperature and Humidity</div>
+        </div>
+      </div>
+
+      <div class="main-content">
+        <div class="left-column slideshow">
+          <!-- PM Slide -->
+          <div class="slide active pm">
+            <div class="slide-header">
+              <img
+                src="icons/particulate-matter.png"
+                alt="Particulate Matter"
+                class="slide-icon"
+                loading="lazy"
+              />
+              <h3>Particulate Matter (PM2.5)</h3>
+            </div>
+
+            <div class="main-fact">
+              Tiny particles that enter deep into lungs and bloodstream
+            </div>
+
+            <ul class="key-facts">
+              <li>Common sources: Dust, smoke, vehicle exhaust</li>
+              <li>Health risks: Breathing problems, heart issues</li>
+              <li>WHO guideline: <strong>15 µg/m³</strong> annual mean</li>
+            </ul>
+
+            <div class="risk-indicator">
+              <div class="slide-bar">
+                <div class="bar moderate" data-width="45"></div>
+              </div>
+
+              <div class="risk-labels">
+                <span>Good</span>
+                <span>Moderate</span>
+                <span>Poor</span>
+              </div>
+
+              <div class="current">Current: 45 µg/m³</div>
+            </div>
+
+            <p class="tip">
+              Tip: Use HEPA air purifiers & keep windows open when outdoor air
+              is clean.
+            </p>
+          </div>
+
+          <!-- CO2 Slide -->
+          <div class="slide co2">
+            <div class="slide-header">
+              <img
+                src="icons/carbon-neutral.png"
+                alt="CO2"
+                class="slide-icon"
+                loading="lazy"
+              />
+              <h3>Carbon Dioxide (CO₂)</h3>
+            </div>
+
+            <div class="main-fact">
+              Colorless, odorless gas from breathing, combustion & poor
+              ventilation
+            </div>
+
+            <ul class="key-facts">
+              <li>Common sources: People, gas stoves, crowded rooms</li>
+              <li>Health risks: Drowsiness, headaches, reduced focus</li>
+              <li>Good indoor level: <strong>&lt; 800 ppm</strong></li>
+            </ul>
+
+            <div class="risk-indicator">
+              <div class="slide-bar">
+                <div class="bar moderate" data-width="62"></div>
+              </div>
+
+              <div class="risk-labels">
+                <span>Good</span>
+                <span>Moderate</span>
+                <span>Poor</span>
+              </div>
+
+              <div class="current">Current: 620 ppm</div>
+            </div>
+
+            <p class="tip">
+              Tip: Increase fresh air supply & use CO₂ monitors in crowded
+              spaces.
+            </p>
+          </div>
+
+          <!-- VOC Slide -->
+          <div class="slide voc">
+            <div class="slide-header">
+              <img
+                src="icons/voc.png"
+                alt="Volatile Organic Compounds"
+                class="slide-icon"
+                loading="lazy"
+              />
+              <h3>Volatile Organic Compounds (VOC)</h3>
+            </div>
+
+            <div class="main-fact">
+              Gases released from paints, cleaners, furniture & new materials
+            </div>
+
+            <ul class="key-facts">
+              <li>
+                Common sources: Paints, adhesives, air fresheners, carpets
+              </li>
+              <li>Health risks: Eye/nose/throat irritation, headaches</li>
+              <li>Good indoor level: <strong>&lt; 0.5 mg/m³</strong></li>
+            </ul>
+
+            <div class="risk-indicator">
+              <div class="slide-bar">
+                <div class="bar moderate" data-width="38"></div>
+              </div>
+
+              <div class="risk-labels">
+                <span>Good</span>
+                <span>Moderate</span>
+                <span>Poor</span>
+              </div>
+
+              <div class="current">Current: 0.38 mg/m³</div>
+            </div>
+
+            <p class="tip">
+              Tip: Choose low-VOC products & ventilate well after painting or
+              cleaning.
+            </p>
+          </div>
+
+          <!-- Ozone Slide -->
+          <div class="slide ozone">
+            <div class="slide-header">
+              <img
+                src="icons/ozone.png"
+                alt="Ozone / Gas"
+                class="slide-icon"
+                loading="lazy"
+              />
+              <h3>Gas or Ozone</h3>
+            </div>
+
+            <div class="main-fact">
+              Strong-smelling gas (ozone) or other indoor pollutants from
+              devices & reactions
+            </div>
+
+            <ul class="key-facts">
+              <li>
+                Common sources: Printers, air purifiers, outdoor smog, cleaners
+              </li>
+              <li>Health risks: Lung irritation, worsened asthma</li>
+              <li>
+                WHO guideline: <strong>&lt; 100 µg/m³</strong> (8-hour mean)
+              </li>
+            </ul>
+
+            <div class="risk-indicator">
+              <div class="slide-bar">
+                <div class="bar safe" data-width="28"></div>
+              </div>
+
+              <div class="risk-labels">
+                <span>Good</span>
+                <span>Moderate</span>
+                <span>Poor</span>
+              </div>
+
+              <div class="current">Current: 28 µg/m³</div>
+            </div>
+
+            <p class="tip">
+              Tip: Avoid ozone-generating devices indoors & ensure good
+              ventilation.
+            </p>
+          </div>
+
+          <!-- Temperature & Humidity Slide -->
+          <div class="slide temp-hum">
+            <div class="slide-header">
+              <img
+                src="icons/temperature.png"
+                alt="Temperature & Humidity"
+                class="slide-icon"
+                loading="lazy"
+              />
+              <h3>Temperature & Humidity</h3>
+            </div>
+
+            <div class="main-fact">
+              Key factors for comfort, mold growth & perceived air quality
+            </div>
+
+            <ul class="key-facts">
+              <li>Ideal range: 20–26 °C & 40–60% relative humidity</li>
+              <li>High humidity risks: Mold, dust mites, stuffiness</li>
+              <li>Low humidity risks: Dry skin, irritated airways</li>
+            </ul>
+
+            <div class="risk-indicator">
+              <div class="slide-bar">
+                <div class="bar moderate" data-width="58"></div>
+              </div>
+
+              <div class="risk-labels">
+                <span>Good</span>
+                <span>Moderate</span>
+                <span>Poor</span>
+              </div>
+
+              <div class="current">Current: 24.8 °C / 58% RH</div>
+            </div>
+
+            <p class="tip">
+              Tip: Use dehumidifiers/AC in humid weather & humidifiers in dry
+              conditions.
+            </p>
+          </div>
+
+          <div class="slide-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        </div>
+
+        <div class="right-column">
+          <div class="time-card">
+            <div class="time-label">Live Monitoring</div>
+            <div class="time-value" id="liveTime">0 h 00 min</div>
+          </div>
+
+          <div class="chart-panel">
+            <div class="chart-header">
+              <h2>Air Quality History</h2>
+            </div>
+
+            <div class="chart-wrapper">
+              <canvas id="co2Chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="status"></div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
