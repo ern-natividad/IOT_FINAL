@@ -1,13 +1,14 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Atmospheric Monitoring - Canteen Air Quality</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Atmospheric Monitoring - Canteen Air Quality</title>
 
-    <link rel="stylesheet" href="style.css" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-  </head>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
 
   <body>
     <header class="topbar">
@@ -40,7 +41,12 @@
 
         <div class="card temperature">
           <div class="value" id="temp-card">24.5 °C</div>
-          <div class="label">Temperature and Humidity</div>
+          <div class="label">Temperature</div>
+        </div>
+
+        <div class="card humidity">
+          <div class="value" id="hum-card">58 %</div>
+          <div class="label">Humidity</div>
         </div>
       </div>
 
@@ -255,7 +261,10 @@
                 <span>Poor</span>
               </div>
 
-              <div class="current">Current: 24.8 °C / 58% RH</div>
+              <div class="current">
+                <div>Current temperature: <span id="temp-current">24.8 °C</span></div>
+                <div>Current humidity: <span id="hum-current">58% RH</span></div>
+              </div>
             </div>
 
             <p class="tip">

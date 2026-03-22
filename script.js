@@ -1,9 +1,16 @@
+/* Unified dashboard JS
+   - chart + slides (kept from original)
+   - fetch pipeline: try local ESP32, fallback to Supabase
+*/
+
+const ESP32_IP = "http://192.168.0.197/"; // Replace with your ESP32's IP address
+const SUPABASE_URL = "https://oemvxuvryyivxijczpli.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lbXZ4dXZyeXlpdnhpamN6cGxpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NDA4OTQ2OCwiZXhwIjoyMDg5NjY1NDY4fQ.Toiniui2Wve0L8yzMigAbY91PkDrTGTYSLGHEzCMXVk"; // replace with your anon key
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 const ctx = document.getElementById("co2Chart").getContext("2d");
 
-const labels = Array.from(
-  { length: 13 },
-  (_, i) => `${i * 5} min ago`,
-).reverse();
+const labels = Array.from({ length: 13 }, (_, i) => `${i * 5} min ago`).reverse();
 
 const data = {
   labels,
@@ -31,156 +38,141 @@ const config = {
       y: {
         min: 450,
         max: 800,
-        ticks: {
-          stepSize: 50,
-          font: { size: 13 },
-        },
+        ticks: { stepSize: 50, font: { size: 13 } },
         grid: { color: "#e2e8f0" },
       },
-      x: {
-        ticks: {
-          font: { size: 13 },
-          maxRotation: 0,
-        },
-        grid: { display: false },
-      },
+      x: { ticks: { font: { size: 13 }, maxRotation: 0 }, grid: { display: false } },
     },
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        mode: "index",
-        intersect: false,
-      },
-    },
-    interaction: {
-      mode: "nearest",
-      axis: "x",
-      intersect: false,
-    },
+    plugins: { legend: { display: false }, tooltip: { mode: "index", intersect: false } },
+    interaction: { mode: "nearest", axis: "x", intersect: false },
   },
 };
 
+const chart = new Chart(ctx, config);
+
+// --- slideshow logic (kept from original file) ---
 const slides = document.querySelectorAll(".slideshow .slide");
 const dots = document.querySelectorAll(".slide-dots .dot");
-
 let currentSlide = 0;
 let interval;
 
 function showSlide(index) {
   slides.forEach((slide, i) => {
     slide.classList.toggle("active", i === index);
-    dots[i].classList.toggle("active", i === index);
+    if (dots[i]) dots[i].classList.toggle("active", i === index);
   });
 
-  const activeBar = slides[index].querySelector(".bar");
-
+  const activeBar = slides[index] && slides[index].querySelector(".bar");
   if (activeBar) {
     activeBar.style.width = "0%";
-
     setTimeout(() => {
       const targetWidth = activeBar.dataset.width || "50";
       activeBar.style.width = targetWidth + "%";
     }, 200);
   }
-
   currentSlide = index;
 }
 
 function startInterval() {
-  interval = setInterval(() => {
-    const next = (currentSlide + 1) % slides.length;
-    showSlide(next);
-  }, 5500);
+  interval = setInterval(() => showSlide((currentSlide + 1) % slides.length), 5500);
 }
 
-startInterval();
-
+if (slides.length) startInterval();
 const slideshowEl = document.querySelector(".slideshow");
+if (slideshowEl) {
+  slideshowEl.addEventListener("mouseenter", () => clearInterval(interval));
+  slideshowEl.addEventListener("mouseleave", startInterval);
+}
+dots.forEach((dot, i) => dot.addEventListener("click", () => { clearInterval(interval); showSlide(i); startInterval(); }));
 
-slideshowEl.addEventListener("mouseenter", () => clearInterval(interval));
-slideshowEl.addEventListener("mouseleave", startInterval);
-
-dots.forEach((dot, i) => {
-  dot.addEventListener("click", () => {
-    clearInterval(interval);
-    showSlide(i);
-    startInterval();
-  });
-});
-
+// --- live time ---
 const MONITORING_START = new Date();
 MONITORING_START.setHours(0, 0, 0, 0);
-
 function updateLiveTime() {
   const now = new Date();
   const diffMs = now - MONITORING_START;
-
-  if (diffMs < 0) {
-    document.getElementById("liveTime").textContent = "0 h 00 min";
-    return;
-  }
-
+  if (diffMs < 0) { document.getElementById("liveTime").textContent = "0 h 00 min"; return; }
   const hours = Math.floor(diffMs / (1000 * 60 * 60));
   const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-
-  const displayText =
-    hours > 0
-      ? `${hours} h ${minutes.toString().padStart(2, "0")} min`
-      : `${minutes} min`;
-
-  document.getElementById("liveTime").textContent = displayText;
+  const displayText = hours > 0 ? `${hours} h ${minutes.toString().padStart(2, "0")} min` : `${minutes} min`;
+  const el = document.getElementById("liveTime"); if (el) el.textContent = displayText;
 }
+setInterval(updateLiveTime, 60000); updateLiveTime();
 
-setInterval(updateLiveTime, 60000);
-
-updateLiveTime();
-
-const chart = new Chart(ctx, config);
-
+// Simulated chart updates (kept behavior)
 setInterval(() => {
   const newValue = Math.round(580 + Math.random() * 90 - 45);
-
   chart.data.datasets[0].data.shift();
   chart.data.datasets[0].data.push(newValue);
-
-  const temp = (23.8 + Math.random() * 1.4).toFixed(1);
-  document.querySelector(".temperature .value").textContent = `${temp} °C`;
-
+  const tempEl = document.querySelector(".temperature .value");
+  if (tempEl) tempEl.textContent = `${(23.8 + Math.random() * 1.4).toFixed(1)} °C`;
   chart.update();
 }, 8000);
 
-const ESP32_IP = "http://192.168.0.198/"; // Replace with your ESP32's IP address
+// --- DOM update helper (safe: updates both specific ids and cards) ---
+function updateUI(reading) {
+  if (!reading) return;
+  const { co2, pm25, temp, hum } = reading;
+  const trySet = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+  trySet('co2', co2 ? `${co2} ppm` : '--');
+  trySet('pm25', pm25 ? `${pm25} µg/m³` : '--');
+  trySet('temp', temp ? `${temp} °C` : '--');
+  trySet('hum', hum ? `${hum} %` : '--');
 
-async function fetchData() {
+  trySet('co2-card', co2 ?? '--');
+  trySet('pm25-card', pm25 ?? '--');
+  trySet('temp-card', temp ? `${temp} °C` : '--');
+  trySet('hum-card', hum ? `${hum} %` : '--');
+
+  // update slide current values if present
+  const tempCurr = document.getElementById('temp-current'); if (tempCurr) tempCurr.textContent = temp ? `${temp} °C` : '--';
+  const humCurr = document.getElementById('hum-current'); if (humCurr) humCurr.textContent = hum ? `${hum} %` : '--';
+
+  const statusEl = document.getElementById('status');
+  if (statusEl) statusEl.textContent = `Last update: ${new Date().toLocaleTimeString()}`;
+}
+
+// --- fetch helpers ---
+async function fetchEsp32Latest() {
+  const res = await fetch(ESP32_IP, { cache: 'no-store' });
+  if (!res.ok) throw new Error(`ESP32 HTTP ${res.status}`);
+  return res.json();
+}
+
+async function fetchSupabaseLatest() {
+  const { data, error } = await supabaseClient
+    .from('sensor_readings')
+    .select('device_id,temperature,humidity,co2,pm25,created_at')
+    .order('created_at', { ascending: false })
+    .limit(1);
+  if (error) throw error;
+  if (!data || data.length === 0) throw new Error('No data from Supabase');
+  const row = data[0];
+  return {
+    co2: row.co2,
+    pm25: row.pm25,
+    temp: row.temperature != null ? Number(row.temperature).toFixed(1) : null,
+    hum: row.humidity != null ? Number(row.humidity).toFixed(1) : null,
+  };
+}
+
+async function refreshSensors() {
   try {
-    const response = await fetch(ESP32_IP);
-    if (!response.ok) throw new Error("Network response was not ok");
-    const data = await response.json();
-    // Update sensor-data section
-    document.getElementById("co2").textContent = data.co2 + " ppm";
-    document.getElementById("pm25").textContent = data.pm25 + " ug/m3";
-    document.getElementById("temp").textContent = data.temp + " °C";
-    document.getElementById("hum").textContent = data.hum + " %";
-    document.getElementById("status").textContent =
-      "Last updated: " + new Date().toLocaleTimeString();
-    // Update summary cards
-    document.getElementById("co2-card").textContent = data.co2;
-    document.getElementById("pm25-card").textContent = data.pm25;
-    document.getElementById("temp-card").textContent = data.temp + " °C";
-    // If you want to update VOC or Gas cards, add logic here
-  } catch (e) {
-    document.getElementById("status").textContent =
-      "Failed to fetch data. Check ESP32 connection.";
-    document.getElementById("co2").textContent = "--";
-    document.getElementById("pm25").textContent = "--";
-    document.getElementById("temp").textContent = "--";
-    document.getElementById("hum").textContent = "--";
-    // Set summary cards to -- on error
-    document.getElementById("co2-card").textContent = "--";
-    document.getElementById("pm25-card").textContent = "--";
-    document.getElementById("temp-card").textContent = "--";
+    const local = await fetchEsp32Latest();
+    updateUI({ co2: local.co2, pm25: local.pm25, temp: local.temp, hum: local.hum });
+    const statusEl = document.getElementById('status'); if (statusEl) statusEl.textContent = `ESP32 live at ${new Date().toLocaleTimeString()}`;
+  } catch (espErr) {
+    try {
+      const sup = await fetchSupabaseLatest();
+      updateUI(sup);
+      const statusEl = document.getElementById('status'); if (statusEl) statusEl.textContent = `Supabase fallback at ${new Date().toLocaleTimeString()}`;
+    } catch (supErr) {
+      console.error('ESP32 error:', espErr, 'Supabase error:', supErr);
+      const statusEl = document.getElementById('status'); if (statusEl) statusEl.textContent = 'Fetch failed (ESP32 + Supabase)';
+      updateUI({ co2: '--', pm25: '--', temp: '--', hum: '--' });
+    }
   }
 }
 
-setInterval(fetchData, 2000);
-window.onload = fetchData;
+setInterval(refreshSensors, 5000);
+window.addEventListener('load', refreshSensors);
