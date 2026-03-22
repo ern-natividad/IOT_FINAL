@@ -46,13 +46,23 @@ const config = {
       legend: { display: false },
       tooltip: {
         mode: 'index',
-        intersect: false
+        intersect: false,
+        titleFont: { size: 14 },
+        bodyFont: { size: 13 }
       }
     },
     interaction: {
       mode: 'nearest',
       axis: 'x',
       intersect: false
+    },
+    elements: {
+      point: {
+        radius: function(context) {
+          // Make points larger on TV screens
+          return window.innerWidth > 1920 ? 4 : 0;
+        }
+      }
     }
   }
 };
@@ -104,6 +114,91 @@ dots.forEach((dot, i) => {
     startInterval();
   });
 });
+
+// Touch and keyboard navigation for TV/remote control support
+let touchStartX = 0;
+let touchEndX = 0;
+
+slideshowEl.addEventListener('touchstart', (e) => {
+  touchStartX = e.changedTouches[0].screenX;
+});
+
+slideshowEl.addEventListener('touchend', (e) => {
+  touchEndX = e.changedTouches[0].screenX;
+  handleSwipe();
+});
+
+function handleSwipe() {
+  const swipeThreshold = 50;
+  const diff = touchStartX - touchEndX;
+
+  if (Math.abs(diff) > swipeThreshold) {
+    clearInterval(interval);
+    if (diff > 0) {
+      // Swipe left - next slide
+      const next = (currentSlide + 1) % slides.length;
+      showSlide(next);
+    } else {
+      // Swipe right - previous slide
+      const prev = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(prev);
+    }
+    startInterval();
+  }
+}
+
+// Keyboard navigation for TV remote
+document.addEventListener('keydown', (e) => {
+  switch(e.key) {
+    case 'ArrowLeft':
+      e.preventDefault();
+      clearInterval(interval);
+      const prev = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(prev);
+      startInterval();
+      break;
+    case 'ArrowRight':
+      e.preventDefault();
+      clearInterval(interval);
+      const next = (currentSlide + 1) % slides.length;
+      showSlide(next);
+      startInterval();
+      break;
+    case 'Enter':
+    case ' ':
+      e.preventDefault();
+      // Toggle slideshow pause/play
+      if (interval) {
+        clearInterval(interval);
+        interval = null;
+      } else {
+        startInterval();
+      }
+      break;
+  }
+});
+
+// Make dots larger and more touch-friendly on TV screens
+function updateDotSizes() {
+  const dots = document.querySelectorAll('.slide-dots .dot');
+  const isTV = window.innerWidth > 1200;
+
+  dots.forEach(dot => {
+    if (isTV) {
+      dot.style.width = '12px';
+      dot.style.height = '12px';
+      dot.style.margin = '0 2px';
+    } else {
+      dot.style.width = '';
+      dot.style.height = '';
+      dot.style.margin = '';
+    }
+  });
+}
+
+// Update dot sizes on load and resize
+updateDotSizes();
+window.addEventListener('resize', updateDotSizes);
 
 const MONITORING_START = new Date();
 MONITORING_START.setHours(0, 0, 0, 0);
