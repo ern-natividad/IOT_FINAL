@@ -43,8 +43,24 @@ const config = {
       },
       x: { ticks: { font: { size: 13 }, maxRotation: 0 }, grid: { display: false } },
     },
-    plugins: { legend: { display: false }, tooltip: { mode: "index", intersect: false } },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        mode: "index",
+        intersect: false,
+        titleFont: { size: 14 },
+        bodyFont: { size: 13 }
+      }
+    },
     interaction: { mode: "nearest", axis: "x", intersect: false },
+    elements: {
+      point: {
+        radius: function(context) {
+          // Make points larger on TV screens
+          return window.innerWidth > 1920 ? 4 : 0;
+        }
+      }
+    }
   },
 };
 
@@ -74,7 +90,7 @@ function showSlide(index) {
 }
 
 function startInterval() {
-  interval = setInterval(() => showSlide((currentSlide + 1) % slides.length), 5500);
+  interval = setInterval(() => showSlide((currentSlide + 1) % slides.length), 5000);
 }
 
 if (slides.length) startInterval();
@@ -84,6 +100,129 @@ if (slideshowEl) {
   slideshowEl.addEventListener("mouseleave", startInterval);
 }
 dots.forEach((dot, i) => dot.addEventListener("click", () => { clearInterval(interval); showSlide(i); startInterval(); }));
+
+// Touch and keyboard navigation for TV/remote control support
+let touchStartX = 0;
+let touchStartY = 0;
+let touchEndX = 0;
+let touchEndY = 0;
+
+if (slideshowEl) {
+  slideshowEl.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+  });
+
+  slideshowEl.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    touchEndY = e.changedTouches[0].screenY;
+    handleSwipe();
+  });
+}
+
+function handleSwipe() {
+  const swipeThreshold = 50;
+  const diffX = touchStartX - touchEndX;
+  const diffY = Math.abs(touchStartY - touchEndY);
+
+  // Only handle horizontal swipes (ignore vertical scrolling)
+  if (Math.abs(diffX) > swipeThreshold && Math.abs(diffX) > diffY) {
+    clearInterval(interval);
+    if (diffX > 0) {
+      // Swipe left - next slide
+      const next = (currentSlide + 1) % slides.length;
+      showSlide(next);
+    } else {
+      // Swipe right - previous slide
+      const prev = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(prev);
+    }
+    startInterval();
+  }
+}
+
+// Keyboard navigation for TV remote and mobile keyboard
+document.addEventListener('keydown', (e) => {
+  // Prevent default behavior for navigation keys
+  if (['ArrowLeft', 'ArrowRight', 'Enter', ' ', 'Tab'].includes(e.key)) {
+    e.preventDefault();
+  }
+
+  switch(e.key) {
+    case 'ArrowLeft':
+      clearInterval(interval);
+      const prev = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(prev);
+      startInterval();
+      break;
+    case 'ArrowRight':
+      clearInterval(interval);
+      const next = (currentSlide + 1) % slides.length;
+      showSlide(next);
+      startInterval();
+      break;
+    case 'Enter':
+    case ' ':
+      // Toggle slideshow pause/play
+      if (interval) {
+        clearInterval(interval);
+        interval = null;
+      } else {
+        startInterval();
+      }
+      break;
+    case 'Tab':
+      // Allow tab navigation for accessibility
+      break;
+  }
+});
+
+// Make dots larger and more touch-friendly on TV screens and mobile
+function updateDotSizes() {
+  const dots = document.querySelectorAll('.slide-dots .dot');
+  const isLargeScreen = window.innerWidth > 1200;
+  const isMobile = window.innerWidth <= 768;
+
+  dots.forEach(dot => {
+    if (isLargeScreen) {
+      dot.style.width = '12px';
+      dot.style.height = '12px';
+      dot.style.margin = '0 2px';
+    } else if (isMobile) {
+      dot.style.width = '10px';
+      dot.style.height = '10px';
+      dot.style.margin = '0 4px';
+    } else {
+      dot.style.width = '';
+      dot.style.height = '';
+      dot.style.margin = '';
+    }
+  });
+}
+
+// Update dot sizes on load and resize
+updateDotSizes();
+window.addEventListener('resize', updateDotSizes);
+
+// Mobile-specific optimizations
+function optimizeForMobile() {
+  const isMobile = window.innerWidth <= 768;
+
+  if (isMobile) {
+    // Reduce animation times on mobile for better performance
+    document.documentElement.style.setProperty('--animation-duration', '0.3s');
+
+    // Add passive touch listeners for better scroll performance
+    const touchElements = document.querySelectorAll('.slideshow, .card, .chart-panel');
+    touchElements.forEach(el => {
+      el.addEventListener('touchstart', () => {}, { passive: true });
+    });
+  }
+}
+
+// Initialize mobile optimizations
+optimizeForMobile();
+window.addEventListener('resize', optimizeForMobile);
 
 // --- live time ---
 const MONITORING_START = new Date();

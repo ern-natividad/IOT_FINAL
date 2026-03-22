@@ -14,6 +14,23 @@ body {
   font-size: clamp(14px, 0.8vw, 18px);
 }
 
+/* Prevent text selection on TV interfaces */
+.slideshow,
+.time-card,
+.chart-panel,
+.card {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Improve focus states for TV navigation */
+.dot:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
 .dashboard {
   height: calc(100vh - 90px);
   padding: 1.5rem 2.5rem;
@@ -95,6 +112,11 @@ body {
   border-top: 6px solid #14b8a6;
 }
 
+.card.humidity {
+  background: linear-gradient(145deg, #e0f2fe 0%, #bae6fd 100%);
+  border-top: 6px solid #0ea5e9;
+}
+
 .card.pm .value {
   color: #991b1b;
 }
@@ -113,6 +135,10 @@ body {
 
 .card.temperature .value {
   color: #0f766e;
+}
+
+.card.humidity .value {
+  color: #0c4a6e;
 }
 
 .main-content {
@@ -134,6 +160,8 @@ body {
   width: 97%;
   min-height: 250px;
   overflow: hidden;
+  margin-bottom: 2rem !important;
+  padding-bottom: 2rem !important;
 }
 
 .slide.pm .bar {
@@ -152,8 +180,12 @@ body {
   background: linear-gradient(to right, #3b82f6, #93c5fd);
 }
 
-.slide.temp-hum .bar {
+.slide.temp .bar {
   background: linear-gradient(to right, #14b8a6, #5eead4);
+}
+
+.slide.hum .bar {
+  background: linear-gradient(to right, #0ea5e9, #bae6fd);
 }
 
 .slideshow .slide {
@@ -178,7 +210,7 @@ body {
 .slideshow .slide > * {
   opacity: 0;
   transform: translateY(12px);
-  transition: all 0.7s ease-out;
+  transition: all 0.9s ease-out;
 }
 
 .slideshow .slide.active > * {
@@ -251,11 +283,20 @@ body {
   );
 }
 
-.slide.temp-hum::before {
+.slide.temp::before {
   background: linear-gradient(
     to bottom,
     rgba(209, 250, 229, 0.5) 0%,
     rgba(167, 243, 208, 0.1) 50%,
+    transparent 100%
+  );
+}
+
+.slide.hum::before {
+  background: linear-gradient(
+    to bottom,
+    rgba(186, 230, 253, 0.5) 0%,
+    rgba(125, 211, 252, 0.15) 50%,
     transparent 100%
   );
 }
@@ -270,7 +311,7 @@ body {
 .slide-icon {
   width: 80px;
   height: 80px;
-  margin-top: 1rem;
+  margin-top: 0;
   object-fit: contain;
   filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.12));
 }
@@ -279,7 +320,8 @@ body {
 .slide.co2,
 .slide.voc,
 .slide.ozone,
-.slide.temp-hum {
+.slide.temp,
+.slide.hum {
   font-size: 2rem;
 }
 
@@ -355,6 +397,7 @@ body {
 .current {
   text-align: center;
   margin-top: 0.7rem;
+  margin-bottom: 0;
   font-weight: 700;
   font-size: 1.5rem;
   color: #1e293b;
@@ -364,7 +407,7 @@ body {
   font-size: 1rem;
   color: #1d242d;
   font-style: italic;
-  margin-top: 1.2rem;
+  margin-top: 0.3rem;
   padding: 0.8rem;
   background: rgba(226, 232, 240, 0.4);
   border-radius: 10px;
@@ -373,7 +416,7 @@ body {
 
 .slide-dots {
   position: absolute;
-  bottom: 1.2rem;
+  bottom: 0.9rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -435,8 +478,10 @@ body {
   display: flex;
   margin-top: 5px;
   width: 560px;
-  height: 300px;
+  height: 295px;
   flex-direction: column;
+  margin-bottom: 2rem !important;
+  padding-bottom: 2rem !important;
 }
 
 .chart-header {
@@ -465,4 +510,654 @@ body {
   position: relative;
   flex: 1;
   min-height: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .main-content {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+
+  .right-column {
+    order: -1; /* Move chart above slideshow on smaller screens */
+  }
+
+  .chart-panel {
+    width: 100% !important;
+    height: 350px !important;
+  }
+
+  .slideshow {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 1rem 1rem;
+    height: calc(100vh - 70px);
+  }
+
+  .topbar {
+    padding: 1rem;
+  }
+
+  .topbar h1 {
+    font-size: 1.8rem;
+  }
+
+  .summary-cards {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+  }
+
+  .card {
+    padding: 1.2rem 1.4rem;
+  }
+
+  .card .value {
+    font-size: 2.2rem;
+  }
+
+  .card .label {
+    font-size: 0.9rem;
+  }
+
+  .main-content {
+    gap: 1rem;
+  }
+
+  .slideshow {
+    padding: 1.5rem 1.2rem;
+  }
+
+  .slide-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .slide.pm,
+  .slide.co2,
+  .slide.voc,
+  .slide.ozone,
+  .slide.temp,
+  .slide.hum {
+    font-size: 1.6rem;
+  }
+
+  .main-fact {
+    font-size: 1.2rem;
+  }
+
+  .key-facts {
+    font-size: 1rem;
+  }
+
+  .current {
+    font-size: 1.2rem;
+  }
+
+  .tip {
+    font-size: 0.9rem;
+    padding: 0.6rem;
+  }
+
+  .time-card {
+    padding: 1.4rem 1.6rem;
+  }
+
+  .time-value {
+    font-size: 2.8rem;
+  }
+
+  .chart-panel {
+    padding: 1.2rem;
+    height: 280px !important;
+  }
+
+  .chart-header h2 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard {
+    padding: 0.8rem 0.8rem;
+  }
+
+  .topbar h1 {
+    font-size: 1.5rem;
+  }
+
+  .summary-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+
+  .card {
+    padding: 1rem 1.2rem;
+  }
+
+  .card .value {
+    font-size: 1.8rem;
+  }
+
+  .card .label {
+    font-size: 0.8rem;
+  }
+
+  .slideshow {
+    padding: 1.2rem 1rem;
+  }
+
+  .slide-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .slide.pm,
+  .slide.co2,
+  .slide.voc,
+  .slide.ozone,
+  .slide.temp,
+  .slide.hum {
+    font-size: 1.4rem;
+  }
+
+  .main-fact {
+    font-size: 1.1rem;
+  }
+
+  .key-facts {
+    font-size: 0.9rem;
+  }
+
+  .current {
+    font-size: 1.1rem;
+  }
+
+  .tip {
+    font-size: 0.85rem;
+    padding: 0.5rem;
+  }
+
+  .time-card {
+    padding: 1.2rem 1.4rem;
+  }
+
+  .time-value {
+    font-size: 2.4rem;
+  }
+
+  .chart-panel {
+    padding: 1rem;
+    height: 240px !important;
+  }
+}
+
+/* TV-specific enhancements */
+@media (min-width: 1200px) {
+  /* Increase contrast for better TV viewing */
+  .card {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .slideshow {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .time-card,
+  .chart-panel {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Larger touch targets for TV remote navigation */
+  .dot {
+    width: 12px;
+    height: 12px;
+    margin: 0 3px;
+  }
+
+  .dot.active {
+    transform: scale(1.6);
+  }
+}
+@media (min-width: 1920px) {
+  .dashboard {
+    max-width: 2400px;
+    padding: 2rem 3rem;
+  }
+
+  .main-content {
+    grid-template-columns: 12fr 7fr;
+    align-items: stretch;
+    gap: 2rem;
+  }
+
+  .slideshow,
+  .chart-panel {
+    align-self: stretch;
+  }
+
+  .chart-panel {
+    width: 780px !important;
+    height: 500px !important;
+    padding: 2.4rem;
+  }
+
+  .slideshow {
+    height: auto;
+    width: calc(100% - 0px); /* stay full left column width */
+    padding: 2.5rem 2.2rem;
+  }
+
+  .topbar h1 {
+    font-size: 3.2rem;
+  }
+
+  .summary-cards {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+
+  .card {
+    padding: 2rem 2.4rem;
+  }
+
+  .card .value {
+    font-size: 4rem;
+  }
+
+  .card .label {
+    font-size: 1rem;
+  }
+
+  .main-content {
+    gap: 2rem;
+  }
+
+  .slideshow {
+    padding: 2.5rem 2.2rem;
+  }
+
+  .slide-icon {
+    width: 150px;
+    height: 150px;
+  }
+
+  .slide.pm,
+  .slide.co2,
+  .slide.voc,
+  .slide.ozone,
+  .slide.temp,
+  .slide.hum {
+    font-size: 3rem;
+  }
+
+  .main-fact {
+    font-size: 2rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .key-facts {
+    font-size: 1.5rem;
+  }
+
+  .slide-bar {
+    height: 30px;
+  }
+
+  .risk-labels {
+    font-size: 1.3rem;
+  }
+
+  .current {
+    font-size: 2rem;
+    margin-top: 1rem;
+  }
+
+  .tip {
+    font-size: 1.5rem;
+    padding: 1rem;
+  }
+
+  .time-card {
+    padding: 2.2rem 2.6rem;
+  }
+
+  .time-value {
+    font-size: 4.2rem;
+  }
+
+  .chart-header h2 {
+    font-size: 1.6rem;
+  }
+}
+
+
+
+/* 4K TV displays (3840px+) */
+@media (min-width: 3841px) {
+  .dashboard {
+    max-width: 4500px;
+    padding: 5rem 6rem;
+  }
+
+  .topbar h1 {
+    font-size: 5rem;
+  }
+
+  .summary-cards {
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 3rem;
+  }
+
+  .card {
+    padding: 3.5rem 4.5rem;
+  }
+
+  .card .value {
+    font-size: 7rem;
+  }
+
+  .card .label {
+    font-size: 2rem;
+  }
+
+  .main-content {
+    gap: 4rem;
+  }
+
+  .slideshow {
+    padding: 4.5rem 3.5rem;
+    min-height: 550px;
+  }
+
+  .slide-icon {
+    width: 160px;
+    height: 160px;
+  }
+
+  .slide.pm,
+  .slide.co2,
+  .slide.voc,
+  .slide.ozone,
+  .slide.temp,
+  .slide.hum {
+    font-size: 4rem;
+  }
+
+  .main-fact {
+    font-size: 3rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .key-facts {
+    font-size: 2.2rem;
+  }
+
+  .slide-bar {
+    height: 35px;
+  }
+
+  .risk-labels {
+    font-size: 1.8rem;
+  }
+
+  .current {
+    font-size: 2.8rem;
+    margin-top: 1.5rem;
+  }
+
+  .tip {
+    font-size: 2rem;
+    padding: 1.5rem;
+  }
+
+  .time-card {
+    padding: 3.5rem 4rem;
+  }
+
+  .time-value {
+    font-size: 6rem;
+  }
+
+  .chart-panel {
+    width: 1300px !important;
+    height: 650px !important;
+    padding: 3.5rem;
+  }
+
+  .chart-header h2 {
+    font-size: 2.5rem;
+  }
+}
+
+/* Ultra-wide TV displays (2560px+ width, 16:9 to 21:9 aspect ratios) */
+@media (min-width: 2560px) and (max-width: 3839px) {
+  .dashboard {
+    max-width: 2800px;
+    padding: 2.5rem 3.5rem;
+  }
+
+  .topbar h1 {
+    font-size: 3.5rem;
+  }
+
+  .summary-cards {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.2rem;
+  }
+
+  .card {
+    padding: 2.2rem 2.8rem;
+  }
+
+  .card .value {
+    font-size: 4.5rem;
+  }
+
+  .card .label {
+    font-size: 1.4rem;
+  }
+
+  .main-content {
+    gap: 2.5rem;
+  }
+
+  .slideshow {
+    padding: 2.8rem 2.4rem;
+    min-height: 420px;
+  }
+
+  .slide-icon {
+    width: 110px;
+    height: 110px;
+  }
+
+  .slide.pm,
+  .slide.co2,
+  .slide.voc,
+  .slide.ozone,
+  .slide.temp,
+  .slide.hum {
+    font-size: 2.6rem;
+  }
+
+  .main-fact {
+    font-size: 1.9rem;
+  }
+
+  .key-facts {
+    font-size: 1.5rem;
+  }
+
+  .current {
+    font-size: 1.9rem;
+  }
+
+  .tip {
+    font-size: 1.3rem;
+    padding: 1.1rem;
+  }
+
+  .time-card {
+    padding: 2.4rem 2.8rem;
+  }
+
+  .time-value {
+    font-size: 4.5rem;
+  }
+
+  .chart-panel {
+    width: 800px !important;
+    height: 450px !important;
+    padding: 2.2rem;
+  }
+
+  .chart-header h2 {
+    font-size: 1.7rem;
+  }
+}
+
+/* 8K TV displays (7680px+) */
+@media (min-width: 7680px) {
+  .dashboard {
+    max-width: 6000px;
+    padding: 4rem 6rem;
+  }
+
+  .topbar h1 {
+    font-size: 6rem;
+  }
+
+  .summary-cards {
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 3.5rem;
+  }
+
+  .card {
+    padding: 3.5rem 4.5rem;
+  }
+
+  .card .value {
+    font-size: 7rem;
+  }
+
+  .card .label {
+    font-size: 2.2rem;
+  }
+
+  .main-content {
+    gap: 4rem;
+  }
+
+  .slideshow {
+    padding: 4rem 3.5rem;
+    min-height: 600px;
+  }
+
+  .slide-icon {
+    width: 180px;
+    height: 180px;
+  }
+
+  .slide.pm,
+  .slide.co2,
+  .slide.voc,
+  .slide.ozone,
+  .slide.temp,
+  .slide.hum {
+    font-size: 4rem;
+  }
+
+  .main-fact {
+    font-size: 3rem;
+  }
+
+  .key-facts {
+    font-size: 2.5rem;
+  }
+
+  .current {
+    font-size: 3rem;
+  }
+
+  .tip {
+    font-size: 2rem;
+    padding: 1.8rem;
+  }
+
+  .time-card {
+    padding: 4rem 4.5rem;
+  }
+
+  .time-value {
+    font-size: 7rem;
+  }
+
+  .chart-panel {
+    width: 1400px !important;
+    height: 750px !important;
+    padding: 3.5rem;
+  }
+
+  .chart-header h2 {
+    font-size: 2.8rem;
+  }
+}
+
+/* TV displays with portrait orientation (rare but possible) */
+@media (min-width: 1920px) and (max-height: 1200px) and (orientation: portrait) {
+  .dashboard {
+    padding: 1.5rem 2rem;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .main-content {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .right-column {
+    order: -1;
+  }
+
+  .slideshow {
+    width: 100% !important;
+    min-height: 350px;
+  }
+
+  .chart-panel {
+    width: 100% !important;
+    height: 400px !important;
+  }
+}
+
+/* TV displays with very high DPI/retina scaling */
+@media (min-width: 1920px) and (-webkit-min-device-pixel-ratio: 2),
+       (min-width: 1920px) and (min-resolution: 192dpi) {
+  .dashboard {
+    padding: 2.5rem 3.5rem;
+  }
+
+  .card {
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .slideshow,
+  .chart-panel {
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .slide-dots .dot {
+    width: 10px;
+    height: 10px;
+  }
 }
