@@ -269,7 +269,144 @@ function updateUI(reading) {
 
   const statusEl = document.getElementById('status');
   if (statusEl) statusEl.textContent = `Last update: ${new Date().toLocaleTimeString()}`;
+  evaluateAlert(reading);
 }
+
+const ALERT_THRESHOLDS = {
+  co2: 1200,
+  pm25: 150,
+  humHigh: 70,
+  humLow: 30,
+};
+
+function getAlertMessage(reading) {
+  const alerts = [];
+  if (reading.co2 != null && reading.co2 >= ALERT_THRESHOLDS.co2) {
+    alerts.push(`CO₂ is high (${reading.co2} ppm)`);
+  }
+  if (reading.pm25 != null && reading.pm25 >= ALERT_THRESHOLDS.pm25) {
+    alerts.push(`PM2.5 is high (${reading.pm25} µg/m³)`);
+  }
+  if (reading.hum != null && reading.hum >= ALERT_THRESHOLDS.humHigh) {
+    alerts.push(`Humidity is too high (${reading.hum}%)`);
+  }
+  if (reading.hum != null && reading.hum <= ALERT_THRESHOLDS.humLow) {
+    alerts.push(`Humidity is too low (${reading.hum}%)`);
+  }
+  return alerts.length > 0 ? `${alerts.join(', ')}. Take immediate action.` : '';
+}
+
+function playAlertBeep() {
+  if (!window.AudioContext && !window.webkitAudioContext) return;
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    const context = new AudioCtx();
+    const gain = context.createGain();
+    gain.connect(context.destination);
+    
+    // Create 4 rapid beeps: beep-beep-beep-beep
+    const beepDuration = 0.08;
+    const silenceDuration = 0.05;
+    let currentTime = context.currentTime;
+    
+    for (let i = 0; i < 4; i++) {
+      const oscillator = context.createOscillator();
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(1200, currentTime);
+      oscillator.connect(gain);
+      
+      gain.gain.setValueAtTime(0.35, currentTime);
+      gain.gain.setValueAtTime(0, currentTime + beepDuration);
+      
+      oscillator.start(currentTime);
+      oscillator.stop(currentTime + beepDuration);
+      
+      currentTime += beepDuration + silenceDuration;
+    }
+    
+    // Clean up after all beeps finish
+    setTimeout(() => {
+      if (context.state !== 'closed') {
+        context.close();
+      }
+    }, (currentTime - context.currentTime) * 1000 + 100);
+  } catch (err) {
+    console.warn('Audio alert not available', err);
+  }
+}
+
+let alertTimeout = null;
+let alertBeepInterval = null;
+
+function showAlertModal(reading) {
+  const overlay = document.getElementById('alertModalOverlay');
+  const message = document.getElementById('alertModalMessage');
+  const co2El = document.getElementById('alertCo2');
+  const pm25El = document.getElementById('alertPm25');
+  const humEl = document.getElementById('alertHum');
+
+  if (!overlay || !message || !co2El || !pm25El || !humEl) return;
+
+  // Clear any existing timeout or interval
+  if (alertTimeout) clearTimeout(alertTimeout);
+  if (alertBeepInterval) clearInterval(alertBeepInterval);
+
+  const alertText = getAlertMessage(reading);
+  message.textContent = alertText || 'Air quality alert detected. Review the dashboard and take action immediately.';
+  co2El.textContent = reading.co2 != null ? `${reading.co2} ppm` : '--';
+  pm25El.textContent = reading.pm25 != null ? `${reading.pm25} µg/m³` : '--';
+  humEl.textContent = reading.hum != null ? `${reading.hum} %` : '--';
+
+  overlay.classList.remove('hidden');
+  overlay.classList.add('visible');
+  overlay.setAttribute('aria-hidden', 'false');
+
+  // Play initial beep
+  playAlertBeep();
+
+  // Schedule beeps at 0, 15, 30, 45, 60 seconds (every 15 seconds for 60 seconds)
+  let beepCount = 0;
+  alertBeepInterval = setInterval(() => {
+    beepCount++;
+    if (beepCount < 5) {
+      playAlertBeep();
+    } else {
+      clearInterval(alertBeepInterval);
+    }
+  }, 15000);
+
+  // Auto-close after 60 seconds
+  alertTimeout = setTimeout(() => {
+    hideAlertModal();
+    if (alertBeepInterval) clearInterval(alertBeepInterval);
+  }, 60000);
+}
+
+function hideAlertModal() {
+  const overlay = document.getElementById('alertModalOverlay');
+  if (!overlay) return;
+  overlay.classList.remove('visible');
+  overlay.classList.add('hidden');
+  overlay.setAttribute('aria-hidden', 'true');
+}
+
+function evaluateAlert(reading) {
+  if (!reading) return;
+  const co2 = Number(reading.co2);
+  const pm25 = Number(reading.pm25);
+  const hum = Number(reading.hum);
+
+  const shouldAlert =
+    (Number.isFinite(co2) && co2 >= ALERT_THRESHOLDS.co2) ||
+    (Number.isFinite(pm25) && pm25 >= ALERT_THRESHOLDS.pm25) ||
+    (Number.isFinite(hum) && (hum >= ALERT_THRESHOLDS.humHigh || hum <= ALERT_THRESHOLDS.humLow));
+
+  if (shouldAlert) {
+    showAlertModal({ co2, pm25, hum });
+  }
+}
+
+
 
 // --- fetch helpers ---
 async function fetchEsp32Latest() {

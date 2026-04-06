@@ -343,6 +343,35 @@
       <div id="status"></div>
     </div>
 
+    <div class="alert-modal-overlay hidden" id="alertModalOverlay" aria-hidden="true">
+      <div class="alert-modal" role="dialog" aria-modal="true" aria-labelledby="alertModalTitle">
+        <div class="alert-modal-top">
+          <span class="alert-icon">⚠️</span>
+          <div>
+            <h2 id="alertModalTitle">Air Quality Alert</h2>
+            <p class="alert-modal-subtitle" id="alertModalMessage">The air quality has reached a hazardous level in the campus area.</p>
+          </div>
+        </div>
+
+        <div class="alert-metrics">
+          <div class="alert-metric">
+            <span>CO₂</span>
+            <strong id="alertCo2">-- ppm</strong>
+          </div>
+          <div class="alert-metric">
+            <span>PM2.5</span>
+            <strong id="alertPm25">-- µg/m³</strong>
+          </div>
+          <div class="alert-metric">
+            <span>Humidity</span>
+            <strong id="alertHum">-- %</strong>
+          </div>
+        </div>
+
+        <p class="alert-tip">Immediate action: open windows, activate ventilation, and keep students away from the risky area.</p>
+      </div>
+    </div>
+
     <script src="script.js"></script>
   </body>
 </html>
