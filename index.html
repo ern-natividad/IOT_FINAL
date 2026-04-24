@@ -1,14 +1,17 @@
 <!doctype html>
 <html lang="en">
   <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Atmospheric Monitoring - Canteen Air Quality</title>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Atmospheric Monitoring - Canteen Air Quality</title>
 
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-</head>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  </head>
 
   <body>
     <header class="topbar">
@@ -32,11 +35,6 @@
         <div class="card voc">
           <div class="value" id="voc-card">45</div>
           <div class="label">VOC (Volatile Organic Compounds)</div>
-        </div>
-
-        <div class="card gas">
-          <div class="value" id="gas-card">45</div>
-          <div class="label">Gas or Ozone</div>
         </div>
 
         <div class="card temperature">
@@ -182,7 +180,7 @@
               </p>
             </div>
 
-            <!-- Ozone Slide -->
+            <!-- Ozone Slide 
             <div class="slide ozone">
               <div class="slide-header">
                 <img
@@ -227,7 +225,7 @@
                 Tip: Avoid ozone-generating devices indoors & ensure good
                 ventilation.
               </p>
-            </div>
+            </div> -->
 
             <!-- Temperature Slide -->
             <div class="slide temp">
@@ -242,7 +240,8 @@
               </div>
 
               <div class="main-fact">
-                Optimal indoor temperature affects comfort, productivity & health
+                Optimal indoor temperature affects comfort, productivity &
+                health
               </div>
 
               <ul class="key-facts">
@@ -262,11 +261,14 @@
                   <span>Hot</span>
                 </div>
 
-                <div class="current">Current: <span id="temp-current">24.8 °C</span></div>
+                <div class="current">
+                  Current: <span id="temp-current">24.8 °C</span>
+                </div>
               </div>
 
               <p class="tip">
-                Tip: Maintain 20–24 °C for optimal comfort and energy efficiency.
+                Tip: Maintain 20–24 °C for optimal comfort and energy
+                efficiency.
               </p>
             </div>
 
@@ -283,13 +285,16 @@
               </div>
 
               <div class="main-fact">
-                Relative humidity affects mold growth, dust mites & respiratory comfort
+                Relative humidity affects mold growth, dust mites & respiratory
+                comfort
               </div>
 
               <ul class="key-facts">
                 <li>Ideal range: 40–60% relative humidity (RH)</li>
                 <li>High humidity: Mold growth, dust mite proliferation</li>
-                <li>Low humidity: Dry skin, irritated airways, static electricity</li>
+                <li>
+                  Low humidity: Dry skin, irritated airways, static electricity
+                </li>
               </ul>
 
               <div class="risk-indicator">
@@ -303,17 +308,19 @@
                   <span>Humid</span>
                 </div>
 
-                <div class="current">Current: <span id="hum-current">58% RH</span></div>
+                <div class="current">
+                  Current: <span id="hum-current">58% RH</span>
+                </div>
               </div>
 
               <p class="tip">
-                Tip: Use dehumidifiers in humid conditions & humidifiers in dry winter air.
+                Tip: Use dehumidifiers in humid conditions & humidifiers in dry
+                winter air.
               </p>
             </div>
 
             <div class="slide-dots">
               <span class="dot active"></span>
-              <span class="dot"></span>
               <span class="dot"></span>
               <span class="dot"></span>
               <span class="dot"></span>
@@ -343,13 +350,24 @@
       <div id="status"></div>
     </div>
 
-    <div class="alert-modal-overlay hidden" id="alertModalOverlay" aria-hidden="true">
-      <div class="alert-modal" role="dialog" aria-modal="true" aria-labelledby="alertModalTitle">
+    <div
+      class="alert-modal-overlay hidden"
+      id="alertModalOverlay"
+      aria-hidden="true"
+    >
+      <div
+        class="alert-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="alertModalTitle"
+      >
         <div class="alert-modal-top">
           <span class="alert-icon">⚠️</span>
           <div>
             <h2 id="alertModalTitle">Air Quality Alert</h2>
-            <p class="alert-modal-subtitle" id="alertModalMessage">The air quality has reached a hazardous level in the campus area.</p>
+            <p class="alert-modal-subtitle" id="alertModalMessage">
+              The air quality has reached a hazardous level in the campus area.
+            </p>
           </div>
         </div>
 
@@ -368,7 +386,10 @@
           </div>
         </div>
 
-        <p class="alert-tip">Immediate action: open windows, activate ventilation, and keep students away from the risky area.</p>
+        <p class="alert-tip">
+          Immediate action: open windows, activate ventilation, and keep
+          students away from the risky area.
+        </p>
       </div>
     </div>
 
