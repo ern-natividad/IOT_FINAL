@@ -197,7 +197,33 @@ function checkAirQuality(latest) {
 
   if (alertLevel) {
     showAlert(alertLevel, alertType, alertMessage, solution, latest);
+
+    // Determine metric type and value for database
+    let metricType = "Unknown";
+    let metricValue = 0;
+
+    if (alertType.includes("CO₂")) {
+      metricType = "CO2";
+      metricValue = latest.co2;
+    } else if (alertType.includes("PM2.5")) {
+      metricType = "PM25";
+      metricValue = latest.pm25;
+    } else if (alertType.includes("VOC")) {
+      metricType = "VOC";
+      metricValue = latest.mq135;
+    } else if (alertType.includes("Humidity")) {
+      metricType = "Humidity";
+      metricValue = latest.humidity;
+    }
+
+    // Insert alert into database
+    insertAlert(metricType, metricValue, alertLevel);
   } else {
+    // If no alert and we had one before, resolve it
+    if (lastAlertId) {
+      resolveAlert(lastAlertId);
+      lastAlertId = null;
+    }
     hideAlert();
   }
 }
@@ -309,9 +335,86 @@ function stopAlarmSound() {
   }
 }
 
-// --- 5. Supabase Real-Time Data Sync ---
+// --- 5. Supabase Configuration ---
+const SUPABASE_URL = "https://oemvxuvryyivxijczpli.supabase.co";
 const SUPABASE_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lbXZ4dXZyeXlpdnhpamN6cGxpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwODk0NjgsImV4cCI6MjA4OTY2NTQ2OH0.5kdLNRVMGFUi_tUplOV2ipSYaw48FAbMTVUALfHbeKg";
+const DEVICE_ID = 1; // Your device ID
+let lastAlertId = null; // Track current alert
+
+// Insert alert into Supabase alerts table
+async function insertAlert(metricType, metricValue, alertLevel) {
+  try {
+    const payload = {
+      device_id: DEVICE_ID,
+      metric_type: metricType,
+      metric_value: metricValue,
+      alert_level: alertLevel,
+      triggered_at: new Date().toISOString(),
+      resolved: false,
+    };
+
+    console.log("Inserting alert with payload:", payload);
+
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/alerts`, {
+      method: "POST",
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+        "Content-Type": "application/json",
+        Prefer: "return=representation",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    console.log("Response status:", response.status);
+    const result = await response.json();
+    console.log("Response data:", result);
+
+    if (!response.ok) {
+      console.error("Supabase error:", result);
+      return;
+    }
+
+    if (Array.isArray(result) && result[0]) {
+      lastAlertId = result[0].alert_id;
+      console.log(
+        `✅ Alert inserted successfully: ${metricType} - ${alertLevel}`,
+        result[0],
+      );
+    } else if (result.message) {
+      console.error("Insert failed:", result.message);
+    }
+  } catch (e) {
+    console.error("Error inserting alert:", e);
+  }
+}
+
+// Mark alert as resolved in Supabase
+async function resolveAlert(alertId) {
+  try {
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/alerts?alert_id=eq.${alertId}`,
+      {
+        method: "PATCH",
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          resolved: true,
+        }),
+      },
+    );
+
+    console.log(`Alert ${alertId} marked as resolved`);
+  } catch (e) {
+    console.error("Error resolving alert:", e);
+  }
+}
+
+// --- 6. Supabase Real-Time Data Sync ---
 
 async function fetchFromSupabase() {
   try {
