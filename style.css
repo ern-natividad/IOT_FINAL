@@ -8,7 +8,8 @@ html,
 body {
   height: 100%;
   overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background: #f5f7fa;
   color: #1a1a1a;
   font-size: clamp(14px, 0.8vw, 18px);
@@ -549,6 +550,7 @@ body {
   display: flex;
   gap: 1rem;
   align-items: flex-start;
+  justify-content: space-between;
   margin-bottom: 1.4rem;
 }
 
@@ -572,6 +574,32 @@ body {
   margin: 0;
   color: #334155;
   line-height: 1.5;
+}
+
+.alert-close-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #64748b;
+  cursor: pointer;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.alert-close-btn:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+.alert-close-btn:active {
+  background: #e2e8f0;
 }
 
 .alert-metrics {
@@ -629,8 +657,15 @@ body {
   }
 
   .alert-modal-top {
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: flex-start;
+  }
+
+  .alert-close-btn {
+    font-size: 1.5rem;
+    width: 1.8rem;
+    height: 1.8rem;
   }
 
   .alert-metrics {
@@ -970,8 +1005,6 @@ body {
   }
 }
 
-
-
 /* 4K TV displays (3840px+) */
 @media (min-width: 3841px) {
   .dashboard {
@@ -1274,7 +1307,7 @@ body {
 
 /* TV displays with very high DPI/retina scaling */
 @media (min-width: 1920px) and (-webkit-min-device-pixel-ratio: 2),
-       (min-width: 1920px) and (min-resolution: 192dpi) {
+  (min-width: 1920px) and (min-resolution: 192dpi) {
   .dashboard {
     padding: 2.5rem 3.5rem;
   }

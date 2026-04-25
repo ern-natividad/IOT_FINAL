@@ -299,6 +299,14 @@ function hideAlert() {
   }
 }
 
+// Close button event listener
+document.addEventListener("DOMContentLoaded", () => {
+  const closeBtn = document.getElementById("alertCloseBtn");
+  if (closeBtn) {
+    closeBtn.addEventListener("click", hideAlert);
+  }
+});
+
 // Alarm Sound Generation
 let audioContext = null;
 let oscillators = [];
