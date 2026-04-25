@@ -117,11 +117,14 @@ updateLiveTime();
 
 // --- 4. Air Quality Alert Logic ---
 const THRESHOLDS = {
-  co2: { moderate: 800, hazardous: 1200 },
-  pm25: { moderate: 35, hazardous: 75 },
-  voc: { moderate: 500, hazardous: 1000 },
-  humidity: { modLow: 30, modHigh: 70, hazLow: 20, hazHigh: 80 },
+  co2: { moderate: 801, hazardous: 1000 },
+  pm25: { moderate: 12.1, hazardous: 35 },
+  voc: { moderate: 51, hazardous: 100 },
+  temperature: { moderate: 27, hazardous: 32 },
+  humidity: { modLow: 51, modHigh: 65, hazLow: 66 },
 };
+
+let alertTimeout = null;
 
 function checkAirQuality(latest) {
   let alertLevel = null;
@@ -133,66 +136,81 @@ function checkAirQuality(latest) {
   if (latest.co2 > THRESHOLDS.co2.hazardous) {
     alertLevel = "HAZARDOUS";
     alertType = "Carbon Dioxide (CO₂)";
-    alertMessage = `CO₂ level is critically high at ${Math.round(latest.co2)} ppm. This causes drowsiness, headaches, and reduced cognitive function.`;
+    alertMessage = `CO₂ level is critically high at ${Math.round(latest.co2)} ppm. Can cause headaches, sleepiness, and loss of concentration.`;
     solution =
-      "Immediately open windows for fresh air, activate ventilation systems, and consider evacuating the area if levels don't drop.";
+      "Immediately open windows for fresh air, activate ventilation systems to bring outdoor air in, and consider evacuating the area if levels don't drop.";
   } else if (latest.co2 > THRESHOLDS.co2.moderate) {
     alertLevel = "MODERATE";
     alertType = "Carbon Dioxide (CO₂)";
-    alertMessage = `CO₂ level is elevated at ${Math.round(latest.co2)} ppm. Poor ventilation may cause discomfort and reduced focus.`;
+    alertMessage = `CO₂ level is elevated at ${Math.round(latest.co2)} ppm. Some people may feel slight drowsiness or stuffiness.`;
     solution =
-      "Increase fresh air supply by opening windows or improving ventilation. Use CO₂ monitors in crowded spaces.";
+      "Increase fresh air supply by opening windows or improving ventilation. Ensure good air circulation in the canteen.";
   }
 
   // Check PM2.5
   if (latest.pm25 > THRESHOLDS.pm25.hazardous) {
     alertLevel = "HAZARDOUS";
     alertType = "Particulate Matter (PM2.5)";
-    alertMessage = `PM2.5 is critically high at ${Math.round(latest.pm25)} µg/m³. Prolonged exposure causes serious respiratory and cardiovascular issues.`;
+    alertMessage = `PM2.5 is critically high at ${Math.round(latest.pm25)} µg/m³. Long-term exposure can lead to serious respiratory and heart issues.`;
     solution =
       "Evacuate the area immediately. Use HEPA air purifiers and N95 masks. Avoid strenuous activities until levels improve.";
   } else if (latest.pm25 > THRESHOLDS.pm25.moderate) {
     alertLevel = "MODERATE";
     alertType = "Particulate Matter (PM2.5)";
-    alertMessage = `PM2.5 is elevated at ${Math.round(latest.pm25)} µg/m³. Sensitive groups may experience breathing difficulties.`;
+    alertMessage = `PM2.5 is elevated at ${Math.round(latest.pm25)} µg/m³. Sensitive individuals might experience minor respiratory irritation.`;
     solution =
-      "Use HEPA air purifiers, keep windows closed during high outdoor pollution, and monitor vulnerable individuals.";
+      "Use HEPA air purifiers to filter particles. Monitor for dust and smoke sources. Ensure good ventilation.";
+  }
+
+  // Check Temperature
+  if (latest.temperature > THRESHOLDS.temperature.hazardous) {
+    alertLevel = "HAZARDOUS";
+    alertType = "Temperature";
+    alertMessage = `Temperature is critically high at ${latest.temperature.toFixed(1)}°C. High risk of heat exhaustion in crowded spaces; may lead to food spoilage.`;
+    solution =
+      "Reduce temperature immediately using air conditioning or fans. Ensure adequate ventilation. Remove heat sources. Provide cooling relief areas.";
+  } else if (latest.temperature > THRESHOLDS.temperature.moderate) {
+    alertLevel = "MODERATE";
+    alertType = "Temperature";
+    alertMessage = `Temperature is elevated at ${latest.temperature.toFixed(1)}°C. Room feels warm; can lead to discomfort and sweating.`;
+    solution =
+      "Increase air conditioning or open windows. Use fans for better air circulation. Monitor food storage conditions.";
   }
 
   // Check Humidity
-  if (
-    latest.humidity < THRESHOLDS.humidity.hazLow ||
-    latest.humidity > THRESHOLDS.humidity.hazHigh
-  ) {
+  if (latest.humidity > THRESHOLDS.humidity.hazLow) {
     alertLevel = "HAZARDOUS";
     alertType = "Humidity Level";
-    alertMessage = `Humidity is at dangerous levels (${latest.humidity.toFixed(1)}% RH). This promotes mold growth or causes severe dryness.`;
+    alertMessage = `Humidity is critically high at ${latest.humidity.toFixed(1)}% RH. High risk of mold growth and increased presence of dust mites; air feels very stuffy.`;
     solution =
-      "Use dehumidifiers for high humidity or humidifiers for low humidity. Improve ventilation and check for water damage or leaks.";
-  } else if (
-    latest.humidity < THRESHOLDS.humidity.modLow ||
-    latest.humidity > THRESHOLDS.humidity.modHigh
-  ) {
+      "Use dehumidifiers immediately. Improve ventilation and air circulation. Check for and remove water sources. Monitor for mold growth.";
+  } else if (latest.humidity > THRESHOLDS.humidity.modHigh) {
     alertLevel = "MODERATE";
     alertType = "Humidity Level";
-    alertMessage = `Humidity is outside comfortable range (${latest.humidity.toFixed(1)}% RH). May promote dust mites or cause dry skin.`;
+    alertMessage = `Humidity is elevated at ${latest.humidity.toFixed(1)}% RH. Air may feel heavy or muggy. Acceptable but not ideal.`;
     solution =
-      "Adjust humidity levels to 40-60% using humidifiers or dehumidifiers. Improve air circulation and ventilation.";
+      "Use dehumidifiers to adjust humidity levels to 30-50%. Improve air circulation and ventilation.";
+  } else if (latest.humidity < THRESHOLDS.humidity.modLow) {
+    alertLevel = "MODERATE";
+    alertType = "Humidity Level";
+    alertMessage = `Humidity is low at ${latest.humidity.toFixed(1)}% RH. Air is dry, which can cause respiratory discomfort.`;
+    solution =
+      "Use humidifiers to increase moisture levels to 30-50% range. Improve ventilation and air circulation.";
   }
 
   // Check VOC (MQ-135)
   if (latest.mq135 > THRESHOLDS.voc.hazardous) {
     alertLevel = "HAZARDOUS";
     alertType = "Volatile Organic Compounds (VOC)";
-    alertMessage = `VOC level is critically high at ${Math.round(latest.mq135)} ppm. Exposure to high VOC causes severe respiratory irritation and headaches.`;
+    alertMessage = `VOC level is critically high at ${Math.round(latest.mq135)} ppm. High concentrations of chemical vapors, ammonia, or smoke can cause immediate irritation.`;
     solution =
       "Immediately increase ventilation, evacuate if symptoms occur. Identify and remove VOC sources (paints, cleaners, solvents). Use activated carbon filters.";
   } else if (latest.mq135 > THRESHOLDS.voc.moderate) {
     alertLevel = "MODERATE";
     alertType = "Volatile Organic Compounds (VOC)";
-    alertMessage = `VOC level is elevated at ${Math.round(latest.mq135)} ppm. Common sources include paints, perfumes, and cleaning products.`;
+    alertMessage = `VOC level is elevated at ${Math.round(latest.mq135)} ppm. Presence of some odors or light smoke; air quality is declining.`;
     solution =
-      "Open windows for ventilation, remove VOC sources, use low-VOC products, and ventilate well after painting or cleaning.";
+      "Open windows for ventilation, remove VOC sources, use low-VOC products, and ventilate well after cooking or cleaning.";
   }
 
   if (alertLevel) {
@@ -256,6 +274,15 @@ function showAlert(level, type, message, solution, latest) {
 
   // Play alarm sound
   playAlarmSound(level);
+
+  // Auto-dismiss after duration: 30 seconds for HAZARDOUS, 10 seconds for MODERATE
+  if (alertTimeout) {
+    clearTimeout(alertTimeout);
+  }
+  const duration = level === "HAZARDOUS" ? 30000 : 10000;
+  alertTimeout = setTimeout(() => {
+    hideAlert();
+  }, duration);
 }
 
 function hideAlert() {
@@ -265,6 +292,11 @@ function hideAlert() {
 
   // Stop alarm sound
   stopAlarmSound();
+
+  if (alertTimeout) {
+    clearTimeout(alertTimeout);
+    alertTimeout = null;
+  }
 }
 
 // Alarm Sound Generation
