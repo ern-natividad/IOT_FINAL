@@ -253,13 +253,39 @@ function showAlert(level, type, message, solution, latest) {
   const co2El = document.getElementById("alertCo2");
   const pm25El = document.getElementById("alertPm25");
   const humEl = document.getElementById("alertHum");
+  const co2Container = co2El.parentElement;
+  const pm25Container = pm25El.parentElement;
+  const humContainer = humEl.parentElement;
   const tipEl = document.querySelector(".alert-tip");
+
+  // Reset visibility - hide all metrics first
+  co2Container.style.display = "none";
+  pm25Container.style.display = "none";
+  humContainer.style.display = "none";
 
   title.textContent = `${level} - ${type}`;
   messageEl.textContent = message;
-  co2El.textContent = Math.round(latest.co2) + " ppm";
-  pm25El.textContent = Math.round(latest.pm25) + " µg/m³";
-  humEl.textContent = latest.humidity.toFixed(1) + " %";
+
+  // Show only the metric that triggered the alert
+  if (type.includes("CO₂")) {
+    co2Container.style.display = "flex";
+    co2El.textContent = Math.round(latest.co2) + " ppm";
+  } else if (type.includes("PM2.5")) {
+    pm25Container.style.display = "flex";
+    pm25El.textContent = Math.round(latest.pm25) + " µg/m³";
+  } else if (type.includes("VOC")) {
+    pm25Container.style.display = "flex";
+    pm25El.textContent = Math.round(latest.mq135) + " ppm";
+    pm25El.parentElement.querySelector("span").textContent = "VOC";
+  } else if (type.includes("Humidity")) {
+    humContainer.style.display = "flex";
+    humEl.textContent = latest.humidity.toFixed(1) + " %";
+  } else if (type.includes("Temperature")) {
+    co2Container.style.display = "flex";
+    co2El.textContent = Math.round(latest.temperature) + " °C";
+    co2El.parentElement.querySelector("span").textContent = "Temperature";
+  }
+
   tipEl.textContent = solution;
 
   // Adjust styling based on alert level
@@ -289,6 +315,16 @@ function hideAlert() {
   const overlay = document.getElementById("alertModalOverlay");
   overlay.classList.remove("visible");
   overlay.classList.add("hidden");
+
+  // Reset metric labels back to defaults
+  const co2Label = document
+    .getElementById("alertCo2")
+    .parentElement.querySelector("span");
+  const pm25Label = document
+    .getElementById("alertPm25")
+    .parentElement.querySelector("span");
+  if (co2Label) co2Label.textContent = "CO₂";
+  if (pm25Label) pm25Label.textContent = "PM2.5";
 
   // Stop alarm sound
   stopAlarmSound();
