@@ -1331,6 +1331,298 @@ body {
 
 /* ========== TV & LARGE DISPLAY OPTIMIZATION ========== */
 
+/* 19" Monitor (1280x1024) */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  html,
+  body {
+    font-size: 13px;
+  }
+
+  .topbar h1 {
+    font-size: 1.6rem;
+  }
+
+  .dashboard {
+    padding: 1rem 1.5rem;
+    gap: 1rem;
+  }
+
+  .summary-cards {
+    gap: 0.8rem;
+  }
+
+  .card {
+    padding: 0.9rem;
+    border-radius: 12px;
+  }
+
+  .card .value {
+    font-size: 1.8rem;
+  }
+
+  .card .label {
+    font-size: 0.8rem;
+  }
+
+  .slideshow {
+    padding: 1.2rem;
+  }
+
+  .slide-header h3 {
+    font-size: 1.2rem;
+  }
+
+  .main-fact {
+    font-size: 0.9rem;
+    margin: 0.6rem 0;
+  }
+
+  .key-facts li {
+    font-size: 0.85rem;
+    margin: 0.4rem 0;
+  }
+
+  .time-card {
+    padding: 1rem;
+  }
+
+  .time-value {
+    font-size: 2rem;
+  }
+
+  .alert-modal {
+    width: min(500px, 90vw);
+  }
+
+  .alert-modal h2 {
+    font-size: 1.6rem;
+  }
+
+  .alert-modal-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .alert-metric strong {
+    font-size: 1.3rem;
+  }
+}
+
+/* 20" Monitor (1600x1200) */
+@media (min-width: 1280px) and (max-width: 1519px) {
+  html,
+  body {
+    font-size: 14px;
+  }
+
+  .topbar h1 {
+    font-size: 1.8rem;
+  }
+
+  .dashboard {
+    padding: 1.2rem 1.8rem;
+    gap: 1.2rem;
+  }
+
+  .summary-cards {
+    gap: 0.9rem;
+  }
+
+  .card {
+    padding: 1rem;
+    border-radius: 13px;
+  }
+
+  .card .value {
+    font-size: 2rem;
+  }
+
+  .card .label {
+    font-size: 0.85rem;
+  }
+
+  .slideshow {
+    padding: 1.3rem;
+  }
+
+  .slide-header h3 {
+    font-size: 1.3rem;
+  }
+
+  .main-fact {
+    font-size: 0.95rem;
+    margin: 0.7rem 0;
+  }
+
+  .key-facts li {
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+  }
+
+  .time-card {
+    padding: 1.1rem;
+  }
+
+  .time-value {
+    font-size: 2.2rem;
+  }
+
+  .alert-modal {
+    width: min(550px, 90vw);
+  }
+
+  .alert-modal h2 {
+    font-size: 1.8rem;
+  }
+
+  .alert-metric strong {
+    font-size: 1.5rem;
+  }
+}
+
+/* 22" Monitor (1680x1050) */
+@media (min-width: 1520px) and (max-width: 1679px) {
+  html,
+  body {
+    font-size: 14.5px;
+  }
+
+  .topbar h1 {
+    font-size: 1.9rem;
+  }
+
+  .dashboard {
+    padding: 1.3rem 2rem;
+    gap: 1.3rem;
+  }
+
+  .summary-cards {
+    gap: 1rem;
+  }
+
+  .card {
+    padding: 1.1rem;
+    border-radius: 14px;
+  }
+
+  .card .value {
+    font-size: 2.2rem;
+  }
+
+  .card .label {
+    font-size: 0.9rem;
+  }
+
+  .slideshow {
+    padding: 1.4rem;
+  }
+
+  .slide-header h3 {
+    font-size: 1.4rem;
+  }
+
+  .main-fact {
+    font-size: 1rem;
+    margin: 0.8rem 0;
+  }
+
+  .key-facts li {
+    font-size: 0.95rem;
+    margin: 0.5rem 0;
+  }
+
+  .time-card {
+    padding: 1.2rem;
+  }
+
+  .time-value {
+    font-size: 2.4rem;
+  }
+
+  .alert-modal {
+    width: min(600px, 90vw);
+  }
+
+  .alert-modal h2 {
+    font-size: 1.9rem;
+  }
+
+  .alert-metric strong {
+    font-size: 1.6rem;
+  }
+}
+
+/* 24" Monitor (1920x1080 or 1920x1200) - Full HD */
+@media (min-width: 1680px) and (max-width: 1919px) {
+  html,
+  body {
+    font-size: 15px;
+  }
+
+  .topbar h1 {
+    font-size: 2rem;
+  }
+
+  .dashboard {
+    padding: 1.4rem 2.2rem;
+    gap: 1.4rem;
+  }
+
+  .summary-cards {
+    gap: 1.1rem;
+  }
+
+  .card {
+    padding: 1.2rem;
+    border-radius: 15px;
+  }
+
+  .card .value {
+    font-size: 2.3rem;
+  }
+
+  .card .label {
+    font-size: 0.92rem;
+  }
+
+  .slideshow {
+    padding: 1.5rem;
+  }
+
+  .slide-header h3 {
+    font-size: 1.5rem;
+  }
+
+  .main-fact {
+    font-size: 1.05rem;
+    margin: 0.8rem 0;
+  }
+
+  .key-facts li {
+    font-size: 1rem;
+    margin: 0.6rem 0;
+  }
+
+  .time-card {
+    padding: 1.3rem;
+  }
+
+  .time-value {
+    font-size: 2.5rem;
+  }
+
+  .alert-modal {
+    width: min(650px, 90vw);
+  }
+
+  .alert-modal h2 {
+    font-size: 2rem;
+  }
+
+  .alert-metric strong {
+    font-size: 1.7rem;
+  }
+}
+
 /* Standard TV Resolution (1920x1080) - Full HD */
 @media (min-width: 1920px) and (max-width: 2559px) {
   html,
