@@ -14,198 +14,200 @@
   </head>
 
   <body>
-    <header class="topbar">
-      <div class="topbar-content">
-        <h1>Atmospheric Monitoring</h1>
-      </div>
-    </header>
+    <div class="dashboard-scalable">
+      <header class="topbar">
+        <div class="topbar-content">
+          <h1>Atmospheric Monitoring</h1>
+        </div>
+      </header>
 
-    <div class="dashboard">
-      <div class="summary-cards">
-        <div class="card pm">
-          <div class="value" id="pm25-card">45</div>
-          <div class="label">Particulate Matter</div>
+      <div class="dashboard">
+        <div class="summary-cards">
+          <div class="card pm">
+            <div class="value" id="pm25-card">45</div>
+            <div class="label">Particulate Matter</div>
+          </div>
+
+          <div class="card co2">
+            <div class="value" id="co2-card">45</div>
+            <div class="label">CO<sub>2</sub></div>
+          </div>
+
+          <div class="card voc">
+            <div class="value" id="voc-card">45</div>
+            <div class="label">VOC (Volatile Organic Compounds)</div>
+          </div>
+
+          <div class="card temperature">
+            <div class="value" id="temp-card">24.5 °C</div>
+            <div class="label">Temperature</div>
+          </div>
+
+          <div class="card humidity">
+            <div class="value" id="hum-card">58 %</div>
+            <div class="label">Humidity</div>
+          </div>
         </div>
 
-        <div class="card co2">
-          <div class="value" id="co2-card">45</div>
-          <div class="label">CO<sub>2</sub></div>
-        </div>
-
-        <div class="card voc">
-          <div class="value" id="voc-card">45</div>
-          <div class="label">VOC (Volatile Organic Compounds)</div>
-        </div>
-
-        <div class="card temperature">
-          <div class="value" id="temp-card">24.5 °C</div>
-          <div class="label">Temperature</div>
-        </div>
-
-        <div class="card humidity">
-          <div class="value" id="hum-card">58 %</div>
-          <div class="label">Humidity</div>
-        </div>
-      </div>
-
-      <div class="main-content">
-        <div class="left-column slideshow">
-          <div class="slides-container">
-            <!-- PM Slide -->
-            <div class="slide active pm">
-              <div class="slide-header">
-                <img
-                  src="icons/particulate-matter.png"
-                  alt="Particulate Matter"
-                  class="slide-icon"
-                  loading="lazy"
-                />
-                <h3>Particulate Matter (PM2.5)</h3>
-              </div>
-
-              <div class="main-fact">
-                Detects fine dust and smoke particles from the kitchen or nearby
-                traffic.
-              </div>
-
-              <ul class="key-facts">
-                <li>
-                  <strong>Good:</strong> 0–12 µg/m³ (little to no health risk)
-                </li>
-                <li>
-                  <strong>Moderate:</strong> 12.1–35 µg/m³ (sensitive
-                  individuals may experience minor irritation)
-                </li>
-                <li>
-                  <strong>Hazardous:</strong> >35 µg/m³ (serious respiratory and
-                  heart issues)
-                </li>
-              </ul>
-
-              <div class="risk-indicator">
-                <div class="slide-bar">
-                  <div class="bar moderate" data-width="45"></div>
+        <div class="main-content">
+          <div class="left-column slideshow">
+            <div class="slides-container">
+              <!-- PM Slide -->
+              <div class="slide active pm">
+                <div class="slide-header">
+                  <img
+                    src="icons/particulate-matter.png"
+                    alt="Particulate Matter"
+                    class="slide-icon"
+                    loading="lazy"
+                  />
+                  <h3>Particulate Matter (PM2.5)</h3>
                 </div>
 
-                <div class="risk-labels">
-                  <span>Good</span>
-                  <span>Moderate</span>
-                  <span>Poor</span>
+                <div class="main-fact">
+                  Detects fine dust and smoke particles from the kitchen or
+                  nearby traffic.
                 </div>
 
-                <div class="current">Current: 45 µg/m³</div>
-              </div>
+                <ul class="key-facts">
+                  <li>
+                    <strong>Good:</strong> 0–12 µg/m³ (little to no health risk)
+                  </li>
+                  <li>
+                    <strong>Moderate:</strong> 12.1–35 µg/m³ (sensitive
+                    individuals may experience minor irritation)
+                  </li>
+                  <li>
+                    <strong>Hazardous:</strong> >35 µg/m³ (serious respiratory
+                    and heart issues)
+                  </li>
+                </ul>
 
-              <p class="tip">
-                Tip: Use HEPA air purifiers & ensure good ventilation in the
-                canteen.
-              </p>
-            </div>
+                <div class="risk-indicator">
+                  <div class="slide-bar">
+                    <div class="bar moderate" data-width="45"></div>
+                  </div>
 
-            <!-- CO2 Slide -->
-            <div class="slide co2">
-              <div class="slide-header">
-                <img
-                  src="icons/carbon-neutral.png"
-                  alt="CO2"
-                  class="slide-icon"
-                  loading="lazy"
-                />
-                <h3>Carbon Dioxide (CO₂)</h3>
-              </div>
+                  <div class="risk-labels">
+                    <span>Good</span>
+                    <span>Moderate</span>
+                    <span>Poor</span>
+                  </div>
 
-              <div class="main-fact">
-                Critical for measuring ventilation in the canteen. High levels
-                typically indicate overcrowding or lack of fresh air.
-              </div>
-
-              <ul class="key-facts">
-                <li>
-                  <strong>Good:</strong> 400–800 ppm (normal outdoor or
-                  well-ventilated air)
-                </li>
-                <li>
-                  <strong>Moderate:</strong> 801–1,000 ppm (slight drowsiness
-                  possible)
-                </li>
-                <li>
-                  <strong>Hazardous:</strong> >1,000 ppm (headaches, sleepiness,
-                  reduced focus)
-                </li>
-              </ul>
-
-              <div class="risk-indicator">
-                <div class="slide-bar">
-                  <div class="bar moderate" data-width="62"></div>
+                  <div class="current">Current: 45 µg/m³</div>
                 </div>
 
-                <div class="risk-labels">
-                  <span>Good</span>
-                  <span>Moderate</span>
-                  <span>Poor</span>
+                <p class="tip">
+                  Tip: Use HEPA air purifiers & ensure good ventilation in the
+                  canteen.
+                </p>
+              </div>
+
+              <!-- CO2 Slide -->
+              <div class="slide co2">
+                <div class="slide-header">
+                  <img
+                    src="icons/carbon-neutral.png"
+                    alt="CO2"
+                    class="slide-icon"
+                    loading="lazy"
+                  />
+                  <h3>Carbon Dioxide (CO₂)</h3>
                 </div>
 
-                <div class="current">Current: 620 ppm</div>
-              </div>
-
-              <p class="tip">
-                Tip: Increase fresh air supply & ensure good air circulation in
-                the canteen.
-              </p>
-            </div>
-
-            <!-- VOC Slide -->
-            <div class="slide voc">
-              <div class="slide-header">
-                <img
-                  src="icons/voc.png"
-                  alt="Volatile Organic Compounds"
-                  class="slide-icon"
-                  loading="lazy"
-                />
-                <h3>Volatile Organic Compounds (VOC)</h3>
-              </div>
-
-              <div class="main-fact">
-                Broad indicator for harmful gases, smoke, and chemical vapors in
-                the air.
-              </div>
-
-              <ul class="key-facts">
-                <li>
-                  <strong>Good:</strong> 0–50 ppm (clean air, no harmful vapors)
-                </li>
-                <li>
-                  <strong>Moderate:</strong> 51–100 ppm (presence of odors or
-                  light smoke)
-                </li>
-                <li>
-                  <strong>Hazardous:</strong> >100 ppm (chemical vapors,
-                  ammonia, or smoke causing immediate irritation)
-                </li>
-              </ul>
-
-              <div class="risk-indicator">
-                <div class="slide-bar">
-                  <div class="bar moderate" data-width="38"></div>
+                <div class="main-fact">
+                  Critical for measuring ventilation in the canteen. High levels
+                  typically indicate overcrowding or lack of fresh air.
                 </div>
 
-                <div class="risk-labels">
-                  <span>Good</span>
-                  <span>Moderate</span>
-                  <span>Poor</span>
+                <ul class="key-facts">
+                  <li>
+                    <strong>Good:</strong> 400–800 ppm (normal outdoor or
+                    well-ventilated air)
+                  </li>
+                  <li>
+                    <strong>Moderate:</strong> 801–1,000 ppm (slight drowsiness
+                    possible)
+                  </li>
+                  <li>
+                    <strong>Hazardous:</strong> >1,000 ppm (headaches,
+                    sleepiness, reduced focus)
+                  </li>
+                </ul>
+
+                <div class="risk-indicator">
+                  <div class="slide-bar">
+                    <div class="bar moderate" data-width="62"></div>
+                  </div>
+
+                  <div class="risk-labels">
+                    <span>Good</span>
+                    <span>Moderate</span>
+                    <span>Poor</span>
+                  </div>
+
+                  <div class="current">Current: 620 ppm</div>
                 </div>
 
-                <div class="current">Current: 0.38 mg/m³</div>
+                <p class="tip">
+                  Tip: Increase fresh air supply & ensure good air circulation
+                  in the canteen.
+                </p>
               </div>
 
-              <p class="tip">
-                Tip: Open windows for ventilation and remove VOC sources like
-                cooking fumes.
-              </p>
-            </div>
+              <!-- VOC Slide -->
+              <div class="slide voc">
+                <div class="slide-header">
+                  <img
+                    src="icons/voc.png"
+                    alt="Volatile Organic Compounds"
+                    class="slide-icon"
+                    loading="lazy"
+                  />
+                  <h3>Volatile Organic Compounds (VOC)</h3>
+                </div>
 
-            <!-- Ozone Slide 
+                <div class="main-fact">
+                  Broad indicator for harmful gases, smoke, and chemical vapors
+                  in the air.
+                </div>
+
+                <ul class="key-facts">
+                  <li>
+                    <strong>Good:</strong> 0–50 ppm (clean air, no harmful
+                    vapors)
+                  </li>
+                  <li>
+                    <strong>Moderate:</strong> 51–100 ppm (presence of odors or
+                    light smoke)
+                  </li>
+                  <li>
+                    <strong>Hazardous:</strong> >100 ppm (chemical vapors,
+                    ammonia, or smoke causing immediate irritation)
+                  </li>
+                </ul>
+
+                <div class="risk-indicator">
+                  <div class="slide-bar">
+                    <div class="bar moderate" data-width="38"></div>
+                  </div>
+
+                  <div class="risk-labels">
+                    <span>Good</span>
+                    <span>Moderate</span>
+                    <span>Poor</span>
+                  </div>
+
+                  <div class="current">Current: 0.38 mg/m³</div>
+                </div>
+
+                <p class="tip">
+                  Tip: Open windows for ventilation and remove VOC sources like
+                  cooking fumes.
+                </p>
+              </div>
+
+              <!-- Ozone Slide 
             <div class="slide ozone">
               <div class="slide-header">
                 <img
@@ -252,192 +254,195 @@
               </p>
             </div> -->
 
-            <!-- Temperature Slide -->
-            <div class="slide temp">
-              <div class="slide-header">
-                <img
-                  src="icons/temperature.png"
-                  alt="Temperature"
-                  class="slide-icon"
-                  loading="lazy"
-                />
-                <h3>Temperature</h3>
-              </div>
-
-              <div class="main-fact">
-                Affects the comfort of students and behavior of gas sensors.
-              </div>
-
-              <ul class="key-facts">
-                <li>
-                  <strong>Good:</strong> 20–26°C (ideal comfort range for
-                  canteen)
-                </li>
-                <li>
-                  <strong>Moderate:</strong> 27–32°C (feeling warm, can cause
-                  discomfort)
-                </li>
-                <li>
-                  <strong>Hazardous:</strong> >32°C (high risk of heat
-                  exhaustion and food spoilage)
-                </li>
-              </ul>
-
-              <div class="risk-indicator">
-                <div class="slide-bar">
-                  <div class="bar safe" data-width="75"></div>
+              <!-- Temperature Slide -->
+              <div class="slide temp">
+                <div class="slide-header">
+                  <img
+                    src="icons/temperature.png"
+                    alt="Temperature"
+                    class="slide-icon"
+                    loading="lazy"
+                  />
+                  <h3>Temperature</h3>
                 </div>
 
-                <div class="risk-labels">
-                  <span>Cold</span>
-                  <span>Comfortable</span>
-                  <span>Hot</span>
+                <div class="main-fact">
+                  Affects the comfort of students and behavior of gas sensors.
                 </div>
 
-                <div class="current">
-                  Current: <span id="temp-current">24.8 °C</span>
+                <ul class="key-facts">
+                  <li>
+                    <strong>Good:</strong> 20–26°C (ideal comfort range for
+                    canteen)
+                  </li>
+                  <li>
+                    <strong>Moderate:</strong> 27–32°C (feeling warm, can cause
+                    discomfort)
+                  </li>
+                  <li>
+                    <strong>Hazardous:</strong> >32°C (high risk of heat
+                    exhaustion and food spoilage)
+                  </li>
+                </ul>
+
+                <div class="risk-indicator">
+                  <div class="slide-bar">
+                    <div class="bar safe" data-width="75"></div>
+                  </div>
+
+                  <div class="risk-labels">
+                    <span>Cold</span>
+                    <span>Comfortable</span>
+                    <span>Hot</span>
+                  </div>
+
+                  <div class="current">
+                    Current: <span id="temp-current">24.8 °C</span>
+                  </div>
                 </div>
+
+                <p class="tip">
+                  Tip: Maintain 20–26 °C for optimal comfort and food safety.
+                </p>
               </div>
 
-              <p class="tip">
-                Tip: Maintain 20–26 °C for optimal comfort and food safety.
-              </p>
+              <!-- Humidity Slide -->
+              <div class="slide hum">
+                <div class="slide-header">
+                  <img
+                    src="icons/humidity.png"
+                    alt="Humidity"
+                    class="slide-icon"
+                    loading="lazy"
+                  />
+                  <h3>Humidity</h3>
+                </div>
+
+                <div class="main-fact">
+                  Humidity is important for preventing mold growth and
+                  maintaining comfort.
+                </div>
+
+                <ul class="key-facts">
+                  <li>
+                    <strong>Good:</strong> 30–50% RH (ideal for respiratory
+                    health and preventing mold)
+                  </li>
+                  <li>
+                    <strong>Moderate:</strong> 51–65% RH (acceptable, but air
+                    may feel heavy or "muggy")
+                  </li>
+                  <li>
+                    <strong>Hazardous:</strong> >65% RH (high risk of mold
+                    growth and dust mites)
+                  </li>
+                </ul>
+
+                <div class="risk-indicator">
+                  <div class="slide-bar">
+                    <div class="bar moderate" data-width="58"></div>
+                  </div>
+
+                  <div class="risk-labels">
+                    <span>Dry</span>
+                    <span>Comfortable</span>
+                    <span>Humid</span>
+                  </div>
+
+                  <div class="current">
+                    Current: <span id="hum-current">58% RH</span>
+                  </div>
+                </div>
+
+                <p class="tip">
+                  Tip: Use dehumidifiers or humidifiers to maintain 30-50%
+                  humidity range.
+                </p>
+              </div>
+
+              <div class="slide-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="right-column">
+            <div class="time-card">
+              <div class="time-label">Live Monitoring</div>
+              <div class="time-value" id="liveTime">0 h 00 min</div>
             </div>
 
-            <!-- Humidity Slide -->
-            <div class="slide hum">
-              <div class="slide-header">
-                <img
-                  src="icons/humidity.png"
-                  alt="Humidity"
-                  class="slide-icon"
-                  loading="lazy"
-                />
-                <h3>Humidity</h3>
+            <div class="chart-panel">
+              <div class="chart-header">
+                <h2>Air Quality History</h2>
               </div>
 
-              <div class="main-fact">
-                Humidity is important for preventing mold growth and maintaining
-                comfort.
+              <div class="chart-wrapper">
+                <canvas id="co2Chart"></canvas>
               </div>
-
-              <ul class="key-facts">
-                <li>
-                  <strong>Good:</strong> 30–50% RH (ideal for respiratory health
-                  and preventing mold)
-                </li>
-                <li>
-                  <strong>Moderate:</strong> 51–65% RH (acceptable, but air may
-                  feel heavy or "muggy")
-                </li>
-                <li>
-                  <strong>Hazardous:</strong> >65% RH (high risk of mold growth
-                  and dust mites)
-                </li>
-              </ul>
-
-              <div class="risk-indicator">
-                <div class="slide-bar">
-                  <div class="bar moderate" data-width="58"></div>
-                </div>
-
-                <div class="risk-labels">
-                  <span>Dry</span>
-                  <span>Comfortable</span>
-                  <span>Humid</span>
-                </div>
-
-                <div class="current">
-                  Current: <span id="hum-current">58% RH</span>
-                </div>
-              </div>
-
-              <p class="tip">
-                Tip: Use dehumidifiers or humidifiers to maintain 30-50%
-                humidity range.
-              </p>
-            </div>
-
-            <div class="slide-dots">
-              <span class="dot active"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
             </div>
           </div>
         </div>
 
-        <div class="right-column">
-          <div class="time-card">
-            <div class="time-label">Live Monitoring</div>
-            <div class="time-value" id="liveTime">0 h 00 min</div>
-          </div>
-
-          <div class="chart-panel">
-            <div class="chart-header">
-              <h2>Air Quality History</h2>
-            </div>
-
-            <div class="chart-wrapper">
-              <canvas id="co2Chart"></canvas>
-            </div>
-          </div>
-        </div>
+        <div id="status"></div>
       </div>
 
-      <div id="status"></div>
-    </div>
-
-    <div
-      class="alert-modal-overlay hidden"
-      id="alertModalOverlay"
-      aria-hidden="true"
-    >
       <div
-        class="alert-modal"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="alertModalTitle"
+        class="alert-modal-overlay hidden"
+        id="alertModalOverlay"
+        aria-hidden="true"
       >
-        <div class="alert-modal-top">
-          <span class="alert-icon">⚠️</span>
-          <div>
-            <h2 id="alertModalTitle">Air Quality Alert</h2>
-            <p class="alert-modal-subtitle" id="alertModalMessage">
-              The air quality has reached a hazardous level in the campus area.
-            </p>
+        <div
+          class="alert-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="alertModalTitle"
+        >
+          <div class="alert-modal-top">
+            <span class="alert-icon">⚠️</span>
+            <div>
+              <h2 id="alertModalTitle">Air Quality Alert</h2>
+              <p class="alert-modal-subtitle" id="alertModalMessage">
+                The air quality has reached a hazardous level in the campus
+                area.
+              </p>
+            </div>
+            <button
+              class="alert-close-btn"
+              id="alertCloseBtn"
+              aria-label="Close alert"
+            >
+              ×
+            </button>
           </div>
-          <button
-            class="alert-close-btn"
-            id="alertCloseBtn"
-            aria-label="Close alert"
-          >
-            ×
-          </button>
-        </div>
 
-        <div class="alert-metrics">
-          <div class="alert-metric">
-            <span>CO₂</span>
-            <strong id="alertCo2">-- ppm</strong>
+          <div class="alert-metrics">
+            <div class="alert-metric">
+              <span>CO₂</span>
+              <strong id="alertCo2">-- ppm</strong>
+            </div>
+            <div class="alert-metric">
+              <span>PM2.5</span>
+              <strong id="alertPm25">-- µg/m³</strong>
+            </div>
+            <div class="alert-metric">
+              <span>Humidity</span>
+              <strong id="alertHum">-- %</strong>
+            </div>
           </div>
-          <div class="alert-metric">
-            <span>PM2.5</span>
-            <strong id="alertPm25">-- µg/m³</strong>
-          </div>
-          <div class="alert-metric">
-            <span>Humidity</span>
-            <strong id="alertHum">-- %</strong>
-          </div>
-        </div>
 
-        <p class="alert-tip">
-          Immediate action: open windows, activate ventilation, and keep
-          students away from the risky area.
-        </p>
+          <p class="alert-tip">
+            Immediate action: open windows, activate ventilation, and keep
+            students away from the risky area.
+          </p>
+        </div>
       </div>
     </div>
+    <!-- .dashboard-scalable -->
 
     <script src="script.js"></script>
   </body>
