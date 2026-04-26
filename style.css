@@ -16,15 +16,7 @@ body {
 }
 
 /* Scalable wrapper to ensure UI fits and scrolls on any screen */
-.dashboard-scalable {
-  width: 100vw;
-  height: 100vh;
-  min-width: 0;
-  min-height: 0;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-}
+
 
 /* Prevent text selection on TV interfaces */
 .slideshow,
