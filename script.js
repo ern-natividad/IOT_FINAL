@@ -359,13 +359,15 @@ function playAlarmSound(level) {
 
     if (level === "HAZARDOUS") {
       // High-pitched repeated beep for hazardous
-      playBeep(900, 200, 0.3); // frequency, duration, volume
-      setTimeout(() => playBeep(900, 200, 0.3), 250);
-      setTimeout(() => playBeep(900, 200, 0.3), 500);
+      playBeep(1000, 300, 0.9); // frequency, duration, volume
+      setTimeout(() => playBeep(1000, 300, 0.9), 250);
+      setTimeout(() => playBeep(1000, 300, 0.9), 500);
+      setTimeout(() => playBeep(1000, 300, 0.9), 750);
     } else if (level === "MODERATE") {
       // Lower pitch for moderate
-      playBeep(600, 150, 0.2);
-      setTimeout(() => playBeep(600, 150, 0.2), 200);
+      playBeep(700, 300, 0.7);
+      setTimeout(() => playBeep(700, 300, 0.7), 200);
+      setTimeout(() => playBeep(700, 300, 0.7), 400);
     }
   } catch (e) {
     console.warn("Audio playback not available:", e);
