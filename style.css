@@ -35,11 +35,12 @@ body {
 .dashboard {
   height: calc(100vh - 90px);
   padding: 1.5rem 2.5rem;
-  max-width: 1920px;
+  max-width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 1.4rem;
+  overflow-y: auto;
 }
 
 .topbar {
@@ -63,8 +64,10 @@ body {
 
 .summary-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.4rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  flex-shrink: 0;
+  max-height: 180px;
 }
 
 .card {
@@ -149,6 +152,7 @@ body {
   gap: 1.4rem;
   min-height: 0;
   align-items: stretch;
+  width: 100%;
 }
 
 .slideshow {
@@ -1843,107 +1847,126 @@ body {
   }
 
   .dashboard {
-    padding: 2.8rem 4rem;
-    gap: 2.4rem;
-    height: calc(100vh - 120px);
+    padding: 1.5rem 2rem;
+    gap: 1.5rem;
+    height: calc(100vh - 90px);
   }
 
   .summary-cards {
-    gap: 2rem;
+    gap: 1.2rem;
+    max-height: 220px;
+    flex-shrink: 0;
   }
 
   .card {
-    padding: 2.4rem;
-    border-radius: 24px;
+    padding: 1.8rem;
+    border-radius: 18px;
   }
 
   .card .value {
-    font-size: 3.8rem;
+    font-size: 3rem;
   }
 
   .card .label {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
+  }
+
+  .main-content {
+    flex: 1;
+    min-height: 0;
   }
 
   .slideshow {
-    padding: 2.8rem;
-    border-radius: 24px;
+    padding: 2rem;
+    border-radius: 20px;
   }
 
   .slide-header h3 {
-    font-size: 2.4rem;
+    font-size: 2rem;
   }
 
   .slide-icon {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
   }
 
   .main-fact {
-    font-size: 1.6rem;
-    margin: 1.5rem 0;
-  }
-
-  .key-facts li {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     margin: 1rem 0;
   }
 
-  .tip {
+  .key-facts li {
     font-size: 1.3rem;
+    margin: 0.7rem 0;
+  }
+
+  .tip {
+    font-size: 1.2rem;
   }
 
   .time-card {
-    padding: 2.4rem;
+    padding: 1.8rem;
     border-radius: 20px;
   }
 
   .time-label {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
 
   .time-value {
-    font-size: 4rem;
+    font-size: 3.2rem;
   }
 
   .chart-header h2 {
-    font-size: 2rem;
+    font-size: 1.6rem;
   }
 
   .chart-wrapper {
-    height: 500px;
+    height: 420px;
   }
 
   .alert-modal {
-    width: min(950px, 85vw);
-    padding: 3rem;
+    width: min(900px, 85vw);
+    padding: 2.5rem;
     border-radius: 32px;
   }
 
   .alert-icon {
-    font-size: 3.6rem;
+    font-size: 3.2rem;
     padding: 1.2rem;
   }
 
   .alert-modal h2 {
-    font-size: 3.2rem;
+    font-size: 2.8rem;
   }
 
   .alert-modal-subtitle {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
   }
 
   .alert-metric {
-    padding: 2rem;
+    padding: 1.8rem;
   }
 
   .alert-metric span {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
 
   .alert-metric strong {
-    font-size: 2.4rem;
+    font-size: 2rem;
   }
+
+  .alert-close-btn {
+    font-size: 2.4rem;
+    width: 2.8rem;
+    height: 2.8rem;
+  }
+
+  .slide-dots .dot {
+    width: 12px;
+    height: 12px;
+  }
+}
 
   .alert-tip {
     font-size: 1.4rem;
@@ -2095,6 +2118,47 @@ body {
     width: 16px;
     height: 16px;
     margin: 0 10px;
+  }
+}
+
+/* Fix layout for all large displays (3840px and above - 48" TV support) */
+@media (min-width: 3840px) {
+  .dashboard {
+    max-width: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .summary-cards {
+    flex-shrink: 0;
+    max-height: 200px;
+    overflow: visible;
+  }
+
+  .main-content {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 12fr 7fr;
+    gap: 1rem;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .slideshow,
+  .chart-panel {
+    min-height: 0;
+    overflow: auto;
+  }
+
+  #status {
+    flex-shrink: 0;
+    margin-top: 0.5rem;
+  }
+
+  body {
+    overflow: hidden;
   }
 }
 
