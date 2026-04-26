@@ -1328,3 +1328,501 @@ body {
     height: 10px;
   }
 }
+
+/* ========== TV & LARGE DISPLAY OPTIMIZATION ========== */
+
+/* Standard TV Resolution (1920x1080) - Full HD */
+@media (min-width: 1920px) and (max-width: 2559px) {
+  html,
+  body {
+    font-size: 16px;
+  }
+
+  .topbar h1 {
+    font-size: 2.2rem;
+  }
+
+  .dashboard {
+    padding: 1.8rem 3rem;
+    gap: 1.6rem;
+  }
+
+  .summary-cards {
+    gap: 1.2rem;
+  }
+
+  .card {
+    padding: 1.4rem;
+    border-radius: 16px;
+  }
+
+  .card .value {
+    font-size: 2.4rem;
+  }
+
+  .card .label {
+    font-size: 0.95rem;
+    margin-top: 0.4rem;
+  }
+
+  .slideshow {
+    padding: 1.8rem;
+  }
+
+  .slide-header h3 {
+    font-size: 1.6rem;
+  }
+
+  .main-fact {
+    font-size: 1.1rem;
+    margin: 1rem 0;
+  }
+
+  .key-facts li {
+    font-size: 1rem;
+    margin: 0.6rem 0;
+  }
+
+  .tip {
+    font-size: 0.95rem;
+  }
+
+  .time-card {
+    padding: 1.6rem;
+  }
+
+  .time-label {
+    font-size: 1rem;
+  }
+
+  .time-value {
+    font-size: 2.6rem;
+  }
+
+  .chart-header h2 {
+    font-size: 1.4rem;
+  }
+
+  .alert-modal {
+    width: min(700px, 90vw);
+  }
+
+  .alert-modal h2 {
+    font-size: 2.2rem;
+  }
+
+  .alert-modal-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .alert-metric {
+    padding: 1.2rem;
+  }
+
+  .alert-metric span {
+    font-size: 1rem;
+  }
+
+  .alert-metric strong {
+    font-size: 1.6rem;
+  }
+
+  .alert-tip {
+    font-size: 1rem;
+    padding: 1.2rem;
+  }
+}
+
+/* High Resolution TV (2560x1440) - QHD/2K */
+@media (min-width: 2560px) and (max-width: 3839px) {
+  html,
+  body {
+    font-size: 18px;
+  }
+
+  .topbar h1 {
+    font-size: 2.8rem;
+  }
+
+  .dashboard {
+    padding: 2.2rem 3.5rem;
+    gap: 2rem;
+  }
+
+  .summary-cards {
+    gap: 1.5rem;
+  }
+
+  .card {
+    padding: 1.8rem;
+    border-radius: 20px;
+  }
+
+  .card .value {
+    font-size: 3rem;
+  }
+
+  .card .label {
+    font-size: 1.1rem;
+  }
+
+  .slideshow {
+    padding: 2.2rem;
+  }
+
+  .slide-header h3 {
+    font-size: 1.9rem;
+  }
+
+  .main-fact {
+    font-size: 1.3rem;
+    margin: 1.2rem 0;
+  }
+
+  .key-facts li {
+    font-size: 1.2rem;
+    margin: 0.8rem 0;
+  }
+
+  .tip {
+    font-size: 1.1rem;
+  }
+
+  .time-card {
+    padding: 2rem;
+  }
+
+  .time-label {
+    font-size: 1.2rem;
+  }
+
+  .time-value {
+    font-size: 3.2rem;
+  }
+
+  .chart-header h2 {
+    font-size: 1.7rem;
+  }
+
+  .alert-modal {
+    width: min(800px, 90vw);
+    padding: 2.5rem;
+  }
+
+  .alert-modal h2 {
+    font-size: 2.6rem;
+  }
+
+  .alert-modal-subtitle {
+    font-size: 1.3rem;
+  }
+
+  .alert-metric {
+    padding: 1.5rem;
+  }
+
+  .alert-metric span {
+    font-size: 1.2rem;
+  }
+
+  .alert-metric strong {
+    font-size: 2rem;
+  }
+
+  .alert-tip {
+    font-size: 1.2rem;
+    padding: 1.5rem;
+  }
+}
+
+/* 4K Ultra HD TV (3840x2160) */
+@media (min-width: 3840px) and (max-width: 5119px) {
+  html,
+  body {
+    font-size: 20px;
+  }
+
+  .topbar {
+    padding: 2rem 1.5rem;
+  }
+
+  .topbar h1 {
+    font-size: 3.4rem;
+  }
+
+  .dashboard {
+    padding: 2.8rem 4rem;
+    gap: 2.4rem;
+    height: calc(100vh - 120px);
+  }
+
+  .summary-cards {
+    gap: 2rem;
+  }
+
+  .card {
+    padding: 2.4rem;
+    border-radius: 24px;
+  }
+
+  .card .value {
+    font-size: 3.8rem;
+  }
+
+  .card .label {
+    font-size: 1.4rem;
+  }
+
+  .slideshow {
+    padding: 2.8rem;
+    border-radius: 24px;
+  }
+
+  .slide-header h3 {
+    font-size: 2.4rem;
+  }
+
+  .slide-icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .main-fact {
+    font-size: 1.6rem;
+    margin: 1.5rem 0;
+  }
+
+  .key-facts li {
+    font-size: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  .tip {
+    font-size: 1.3rem;
+  }
+
+  .time-card {
+    padding: 2.4rem;
+    border-radius: 20px;
+  }
+
+  .time-label {
+    font-size: 1.5rem;
+  }
+
+  .time-value {
+    font-size: 4rem;
+  }
+
+  .chart-header h2 {
+    font-size: 2rem;
+  }
+
+  .chart-wrapper {
+    height: 500px;
+  }
+
+  .alert-modal {
+    width: min(950px, 85vw);
+    padding: 3rem;
+    border-radius: 32px;
+  }
+
+  .alert-icon {
+    font-size: 3.6rem;
+    padding: 1.2rem;
+  }
+
+  .alert-modal h2 {
+    font-size: 3.2rem;
+  }
+
+  .alert-modal-subtitle {
+    font-size: 1.6rem;
+  }
+
+  .alert-metric {
+    padding: 2rem;
+  }
+
+  .alert-metric span {
+    font-size: 1.5rem;
+  }
+
+  .alert-metric strong {
+    font-size: 2.4rem;
+  }
+
+  .alert-tip {
+    font-size: 1.4rem;
+    padding: 2rem;
+  }
+
+  .alert-close-btn {
+    font-size: 2.6rem;
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .slide-dots .dot {
+    width: 14px;
+    height: 14px;
+    margin: 0 8px;
+  }
+}
+
+/* 8K Ultra HD (7680x4320) and beyond */
+@media (min-width: 5120px) {
+  html,
+  body {
+    font-size: 24px;
+  }
+
+  .topbar {
+    padding: 2.4rem 2rem;
+  }
+
+  .topbar h1 {
+    font-size: 4rem;
+  }
+
+  .dashboard {
+    padding: 3.2rem 5rem;
+    gap: 3rem;
+    height: calc(100vh - 140px);
+  }
+
+  .summary-cards {
+    gap: 2.4rem;
+  }
+
+  .card {
+    padding: 3rem;
+    border-radius: 32px;
+  }
+
+  .card .value {
+    font-size: 4.6rem;
+  }
+
+  .card .label {
+    font-size: 1.7rem;
+  }
+
+  .slideshow {
+    padding: 3.2rem;
+    border-radius: 32px;
+  }
+
+  .slide-header h3 {
+    font-size: 2.8rem;
+  }
+
+  .slide-icon {
+    width: 100px;
+    height: 100px;
+  }
+
+  .main-fact {
+    font-size: 1.9rem;
+    margin: 2rem 0;
+  }
+
+  .key-facts li {
+    font-size: 1.8rem;
+    margin: 1.2rem 0;
+  }
+
+  .tip {
+    font-size: 1.6rem;
+  }
+
+  .time-card {
+    padding: 3rem;
+  }
+
+  .time-label {
+    font-size: 1.8rem;
+  }
+
+  .time-value {
+    font-size: 4.8rem;
+  }
+
+  .chart-header h2 {
+    font-size: 2.4rem;
+  }
+
+  .chart-wrapper {
+    height: 600px;
+  }
+
+  .alert-modal {
+    width: min(1100px, 80vw);
+    padding: 3.5rem;
+    border-radius: 40px;
+  }
+
+  .alert-icon {
+    font-size: 4.2rem;
+    padding: 1.6rem;
+  }
+
+  .alert-modal h2 {
+    font-size: 3.8rem;
+  }
+
+  .alert-modal-subtitle {
+    font-size: 1.9rem;
+  }
+
+  .alert-metric {
+    padding: 2.4rem;
+  }
+
+  .alert-metric span {
+    font-size: 1.8rem;
+  }
+
+  .alert-metric strong {
+    font-size: 2.8rem;
+  }
+
+  .alert-tip {
+    font-size: 1.7rem;
+    padding: 2.4rem;
+  }
+
+  .alert-close-btn {
+    font-size: 3.2rem;
+    width: 3.6rem;
+    height: 3.6rem;
+  }
+
+  .slide-dots .dot {
+    width: 16px;
+    height: 16px;
+    margin: 0 10px;
+  }
+}
+
+/* TV Safe Zone - Add margins for edge cases */
+@media (min-width: 1920px) {
+  .dashboard {
+    /* Ensure content doesn't touch edges on TV displays */
+    margin-left: 2%;
+    margin-right: 2%;
+  }
+
+  /* Ensure text is readable from 8-10 feet away on TV */
+  .slideshow .slide {
+    /* Minimum readable text size from TV distance */
+    line-height: 1.6;
+  }
+
+  .slide-header h3,
+  .main-fact,
+  .key-facts li {
+    letter-spacing: 0.3px;
+  }
+}
