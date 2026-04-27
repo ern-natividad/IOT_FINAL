@@ -27,19 +27,18 @@ body {
 }
 
 .dashboard {
-  width: 100vw;
-  max-width: 100vw;
-  margin: 0 auto;
-  padding-left: 0;
-  padding-right: 0;
-}
-
-/* Scalable wrapper to ensure UI fits and scrolls on any screen */
-
-/* Prevent text selection on TV interfaces */
-.slideshow,
-.time-card,
-.chart-panel,
+  html, body {
+    min-width: 1280px;
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f5f7fa;
+    color: #1a1a1a;
+    font-size: clamp(14px, 0.8vw, 18px);
+  }
 .card {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -92,19 +91,17 @@ body {
 
 .topbar h1 {
   color: white;
-  font-size: 2.6rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  margin: 0;
-}
-
-.summary-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  flex-shrink: 0;
-  max-height: 180px;
-}
+  .dashboard {
+    min-width: 1280px;
+    width: 100%;
+    height: calc(100vh - 90px);
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    overflow-y: auto;
+  }
 
 .card {
   background: white;
