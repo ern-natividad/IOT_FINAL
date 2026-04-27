@@ -15,8 +15,22 @@ body {
   font-size: clamp(14px, 0.8vw, 18px);
 }
 
-/* Scalable wrapper to ensure UI fits and scrolls on any screen */
+/* TV/large screen scaling fix */
+@media screen and (min-width: 1024px) {
+  body {
+    zoom: 0.7;
+    /* Fallback for browsers that don't support zoom */
+    /* Uncomment below if zoom doesn't work: */
+    /* transform: scale(0.7); */
+    /* transform-origin: top center; */
+    /* width: 142.8%; */
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+}
 
+/* Scalable wrapper to ensure UI fits and scrolls on any screen */
 
 /* Prevent text selection on TV interfaces */
 .slideshow,
@@ -552,7 +566,8 @@ body {
 }
 
 .alert-modal {
-  width: min(620px, 92vw);
+  width: 90%;
+  max-width: 450px;
   background: #ffffff;
   border-radius: 24px;
   box-shadow: 0 30px 80px rgba(15, 23, 42, 0.24);
@@ -617,7 +632,6 @@ body {
   background: #e2e8f0;
   padding: 0 1rem;
 }
-
 
 .alert-metric {
   background: #f8fafc;
@@ -2145,22 +2159,22 @@ body {
   }
 }
 
-  .alert-tip {
-    font-size: 1.4rem;
-    padding: 2rem;
-  }
+.alert-tip {
+  font-size: 1.4rem;
+  padding: 2rem;
+}
 
-  .alert-close-btn {
-    font-size: 2.6rem;
-    width: 3rem;
-    height: 3rem;
-  }
+.alert-close-btn {
+  font-size: 2.6rem;
+  width: 3rem;
+  height: 3rem;
+}
 
-  .slide-dots .dot {
-    width: 14px;
-    height: 14px;
-    margin: 0 8px;
-  }
+.slide-dots .dot {
+  width: 14px;
+  height: 14px;
+  margin: 0 8px;
+}
 
 /* 8K Ultra HD (7680x4320) and beyond */
 @media (min-width: 5120px) {
